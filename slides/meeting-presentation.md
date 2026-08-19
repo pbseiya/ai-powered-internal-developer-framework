@@ -382,41 +382,25 @@ dev-test-low:        value: 10000    # Dev/Test
 
 # 💰 ถ้าต้องเพิ่ม Hardware จะลงทุนเท่าไหร่?
 
-<div class="highlight">
+<div class="highlight" style="font-size: 0.85em;">
 
 **สถานการณ์:** Resource เต็ม ต้องเพิ่ม hardware
 
 **Option 1: เพิ่ม Worker Nodes (On-Premise)**
-
-| รายการ | Qty | ราคา | รวม |
-|--------|-----|------|-----|
-| Dell PowerEdge R750 | 1 | ฿350,000 | ฿350,000 |
-| (48 cores, 128 GB RAM) | | | |
-| **รวม** | | | **฿350,000** |
-| **เพิ่มได้:** | | | +12 cores, +32 GB RAM |
+- Dell PowerEdge R750 (48 cores, 128 GB): **฿350,000**
+- เพิ่มได้: +12 cores, +32 GB RAM
 
 **Option 2: Cloud Bursting (Hybrid)**
-
-| รายการ | ราคา/เดือน |
-|--------|-----------|
-| AWS EC2 (4 cores, 16 GB) | ฿5,000 |
-| ใช้เฉพาะตอน traffic สูง | |
-| **เฉลี่ย:** | **~฿2,000/เดือน** |
+- AWS EC2 (4 cores, 16 GB): ฿5,000/เดือน
+- ใช้เฉพาะตอน traffic สูง → **เฉลี่ย ~฿2,000/เดือน**
 
 **Option 3: Edge Computing (สำหรับโรงงาน)**
-
-| รายการ | ราคา |
-|--------|------|
-| Edge Server (เล็ก) | ฿150,000 |
-| ติดตั้งที่โรงงาน | |
-| ลด load ที่ central | |
-| **รวม** | **฿150,000** |
+- Edge Server (เล็ก) ติดตั้งที่โรงงาน: **฿150,000**
+- ลด load ที่ central
 
 **คำแนะนำ:**
 - ✅ เริ่มจาก Optimize + Auto-scaling (ฟรี)
-- ✅ ถ้าไม่พอ → เพิ่ม worker node (฿350K)
-- ✅ หรือใช้ cloud bursting (฿2K/เดือน)
-- ✅ หรือ edge computing (฿150K)
+- ✅ ถ้าไม่พอ → เพิ่ม worker node (฿350K) หรือ cloud bursting (฿2K/เดือน)
 
 </div>
 
@@ -614,38 +598,26 @@ dev-test-low:        value: 10000    # Dev/Test
 
 # 💰 สรุป ROI: รวม Benefit ทั้งหมด
 
-<div class="highlight">
+<div class="highlight" style="font-size: 0.8em;">
 
-**Investment (การลงทุน):**
-- Server: ฿0 (ใช้ของเดิม)
-- Colocation: ฿703,200/ปี
-- Team (2 people): ฿1,200,000/ปี
-- **รวม: ฿1,903,200/ปี**
+**Investment:** ฿1,903,200/ปี (Colocation ฿703K + Team ฿1.2M)
 
-**Returns (ผลตอบแทน):**
+**Returns: ฿80,270,000/ปี**
 
-| Category | Benefit/ปี | วิธีวัด |
-|----------|-----------|---------|
-| **Cost Avoidance** | ฿900,000 | ไม่ต้องซื้อ server ใหม่ |
-| **Time Savings** | ฿2,400,000 | Developer productivity เพิ่ม 20% |
-| **Error Reduction** | ฿2,700,000 | ลด manual errors |
-| **Downtime Reduction** | ฿6,000,000 | Predictive maintenance |
-| **DORA Metrics** | ฿30,120,000 | Deployment, lead time, MTTR |
-| **Innovation** | ฿800,000 | เพิ่ม 8 apps/ปี |
-| **Compliance** | ฿37,150,000 | Risk avoidance |
-| **Knowledge** | ฿200,000 | Knowledge retention |
-| **รวม** | **฿80,270,000** | |
+| Category | Benefit/ปี |
+|----------|-----------|
+| Cost Avoidance | ฿900,000 |
+| Time Savings (productivity +20%) | ฿2,400,000 |
+| Error Reduction | ฿2,700,000 |
+| Downtime Reduction | ฿6,000,000 |
+| DORA Metrics | ฿30,120,000 |
+| Innovation (8 apps/ปี) | ฿800,000 |
+| Compliance (risk avoidance) | ฿37,150,000 |
+| Knowledge retention | ฿200,000 |
 
-**ROI Calculation:**
-```
-ROI = (Returns - Investment) / Investment
-ROI = (฿80,270,000 - ฿1,903,200) / ฿1,903,200
-ROI = 4,118%
+**ROI = 4,118% | Payback = 1.5 เดือน**
 
-Payback Period = 1.5 เดือน (ไม่ใช่ 1.5 ปี!)
-```
-
-**หมายเหตุ:** ตัวเลขข้างบนเป็น "conservative estimate" — ตัวจริงอาจสูงกว่านี้
+*หมายเหตุ: ตัวเลขเป็น conservative estimate*
 
 </div>
 
@@ -741,36 +713,23 @@ Payback Period = 1.5 เดือน (ไม่ใช่ 1.5 ปี!)
 
 # 🎯 คำแนะนำ: เริ่มอย่างไร?
 
-<div class="highlight">
+<div class="highlight" style="font-size: 0.85em;">
 
-**Phase 1: Pilot Project (เดือน 1-2)**
-
-**เลือก 2 use cases:**
-1. 🏭 **โรงงาน:** Predictive Maintenance App
-2. 🏢 **Back Office:** Leave Approval System
-
-**เป้าหมาย:**
-- ✅ Deploy app แรกภายใน 2 สัปดาห์
-- ✅ วัด benefit จริง (time savings, error reduction)
-- ✅ สร้าง success story
+**Phase 1: Pilot (เดือน 1-2)**
+- 🏭 โรงงาน: Predictive Maintenance App
+- 🏢 Back Office: Leave Approval System
+- ✅ Deploy app แรกใน 2 สัปดาห์, วัด benefit จริง
 
 **Phase 2: Scale (เดือน 3-6)**
-
-**ขยายผล:**
 - ✅ เพิ่ม 5-10 apps
-- ✅ วัด DORA metrics
-- ✅ คำนวณ ROI จริง
+- ✅ วัด DORA metrics + คำนวณ ROI จริง
 
 **Phase 3: Optimize (เดือน 7-12)**
-
-**ปรับปรุง:**
-- ✅ Optimize resource usage
-- ✅ เพิ่ม automation
+- ✅ Optimize resource + เพิ่ม automation
 - ✅ สร้าง innovation culture
 
 **ผลลัพธ์:**
-- ✅ ROI > 4,000%
-- ✅ Payback < 2 เดือน
+- ✅ ROI > 4,000% | Payback < 2 เดือน
 - ✅ ผลงานที่วัดได้ชัดเจน
 
 </div>
@@ -1252,31 +1211,23 @@ $ git push origin main
 
 # 📋 Database Implementation Plan
 
-<div class="compact">
+<div class="compact" style="font-size: 0.85em;">
 
 **Phase 1: SQL Server on Kubernetes (เดือน 1-2)**
-- [ ] Deploy SQL Server on k8s (IT standard)
-- [ ] สร้าง GitLab CI/CD template สำหรับ SQL Server
-- [ ] Auto connection string injection
-- [ ] Auto backup (S3/MinIO)
+- Deploy SQL Server on k8s + GitLab CI/CD template
+- Auto connection string injection + backup (S3/MinIO)
 
 **Phase 2: PostgreSQL + pgvector (เดือน 3)**
-- [ ] Deploy CloudNativePG operator
-- [ ] Enable pgvector extension
-- [ ] สร้าง GitLab CI/CD template สำหรับ PostgreSQL
-- [ ] Database branching สำหรับ preview environments
+- Deploy CloudNativePG operator + enable pgvector
+- Database branching สำหรับ preview environments
 
 **Phase 3: Database Lifecycle (เดือน 4-6)**
-- [ ] Auto migration (Atlas/Flyway)
-- [ ] Auto cleanup เมื่อ MR ปิด
-- [ ] Read replicas สำหรับ scaling
-- [ ] Documentation + templates
+- Auto migration (Atlas/Flyway) + cleanup เมื่อ MR ปิด
+- Read replicas + Documentation
 
 **ผลลัพธ์:**
-- ✅ Zero config database provisioning
-- ✅ SQL Server (IT standard) + PostgreSQL + pgvector
-- ✅ Database branching (เหมือน Neon)
-- ✅ Auto backup, migration, cleanup
+- ✅ Zero config provisioning (SQL Server + PostgreSQL + pgvector)
+- ✅ Database branching, auto backup, migration, cleanup
 
 </div>
 
@@ -1591,30 +1542,23 @@ Developer → เข้า Portal → กด "Create Database"
 
 # 📋 Security Implementation Plan
 
-<div class="compact">
+<div class="compact" style="font-size: 0.85em;">
 
 **Phase 1 (เดือน 1-2): Kubernetes RBAC**
-- [ ] Namespace per team
-- [ ] Role/RoleBinding per namespace
-- [ ] NetworkPolicy (deny cross-namespace)
-- [ ] ResourceQuota (CPU/Memory/Storage limits)
+- Namespace per team + Role/RoleBinding
+- NetworkPolicy (deny cross-namespace) + ResourceQuota
 
 **Phase 2 (เดือน 3-4): Database/Queue RBAC**
-- [ ] Auto-generate credentials per app
-- [ ] Store credentials ใน Vault
-- [ ] Inject credentials เป็น environment variables
-- [ ] จำกัดสิทธิ์ per app
+- Auto-generate credentials per app → Store ใน Vault
+- Inject เป็น environment variables + จำกัดสิทธิ์ per app
 
 **Phase 3 (เดือน 5-6): Portal RBAC**
-- [ ] Setup Backstage (optional)
-- [ ] ติดตั้ง RBAC plugin
-- [ ] กำหนด roles + permissions
-- [ ] Audit logs
+- Setup Backstage (optional) + RBAC plugin
+- กำหนด roles + permissions + Audit logs
 
 **ผลลัพธ์:**
 - ✅ Zero Config + Secure
-- ✅ Namespace isolation
-- ✅ Credentials per app
+- ✅ Namespace isolation + Credentials per app
 - ✅ Audit ได้ทุกขั้นตอน
 
 </div>
@@ -2321,31 +2265,23 @@ deploy:preview:
 
 # 📋 3 Phases Implementation
 
-<div class="compact">
+<div class="compact" style="font-size: 0.85em;">
 
-**Phase 1: ทำให้ UX ใกล้ใกล้เคียง Vercel (เดือน 1-2)**
-- [ ] GitLab CI/CD template (Zero config)
-- [ ] Preview deployment อัตโนมัติทุก MR
-- [ ] Auto cleanup เมื่อ merge/close MR
-- [ ] Documentation สั้นๆ (1 หน้า)
+**Phase 1: UX ใกล้ใกล้เคียง Vercel (เดือน 1-2)**
+- GitLab CI/CD template (Zero config) + Preview deployment ทุก MR
+- Auto cleanup เมื่อ merge/close MR + Documentation สั้นๆ
 
 **Phase 2: เพิ่ม Incentive (เดือน 3)**
-- [ ] Cost comparison (Vercel $20/seat vs เรา Free)
-- [ ] Compliance benefits (PDPA, ISO)
-- [ ] Data control benefits
-- [ ] Success stories จาก pilot projects
+- Cost comparison (Vercel $20/seat vs เรา Free)
+- Compliance benefits (PDPA, ISO) + Success stories
 
 **Phase 3: Migration ง่าย (เดือน 4-6)**
-- [ ] Migration guide (15-30 นาที)
-- [ ] Template สำเร็จรูป (5-10 templates)
-- [ ] Documentation ชัดเจน
-- [ ] (Optional) Backstage Self-Service Portal
+- Migration guide (15-30 นาที) + Template สำเร็จรูป
+- (Optional) Backstage Self-Service Portal
 
 **ผลลัพธ์:**
-- ✅ User experience ใกล้ใกล้เคียง Vercel
-- ✅ ประหยัดเงิน $240/year/คน
-- ✅ Data control + Compliance
-- ✅ Self-service จริงๆ
+- ✅ UX ใกล้ใกล้เคียง Vercel | ประหยัด $240/year/คน
+- ✅ Data control + Compliance | Self-service จริงๆ
 
 </div>
 

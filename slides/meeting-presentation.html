@@ -3332,101 +3332,27 @@ section::after {
 ;" data-marpit-pagination-total="112">
 <header>AI-Powered Internal Developer Framework</header>
 <h1 id="%F0%9F%92%B0-%E0%B8%96%E0%B9%89%E0%B8%B2%E0%B8%95%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%9E%E0%B8%B4%E0%B9%88%E0%B8%A1-hardware-%E0%B8%88%E0%B8%B0%E0%B8%A5%E0%B8%87%E0%B8%97%E0%B8%B8%E0%B8%99%E0%B9%80%E0%B8%97%E0%B9%88%E0%B8%B2%E0%B9%84%E0%B8%AB%E0%B8%A3%E0%B9%88"><img class="emoji" draggable="false" alt="💰" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f4b0.svg" data-marp-twemoji=""/> ถ้าต้องเพิ่ม Hardware จะลงทุนเท่าไหร่?</h1>
-<div class="highlight">
+<div class="highlight" style="font-size: 0.85em;">
 <p><strong>สถานการณ์:</strong> Resource เต็ม ต้องเพิ่ม hardware</p>
 <p><strong>Option 1: เพิ่ม Worker Nodes (On-Premise)</strong></p>
-<table>
-<thead>
-<tr>
-<th>รายการ</th>
-<th>Qty</th>
-<th>ราคา</th>
-<th>รวม</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Dell PowerEdge R750</td>
-<td>1</td>
-<td>฿350,000</td>
-<td>฿350,000</td>
-</tr>
-<tr>
-<td>(48 cores, 128 GB RAM)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>รวม</strong></td>
-<td></td>
-<td></td>
-<td><strong>฿350,000</strong></td>
-</tr>
-<tr>
-<td><strong>เพิ่มได้:</strong></td>
-<td></td>
-<td></td>
-<td>+12 cores, +32 GB RAM</td>
-</tr>
-</tbody>
-</table>
+<ul>
+<li>Dell PowerEdge R750 (48 cores, 128 GB): <strong>฿350,000</strong></li>
+<li>เพิ่มได้: +12 cores, +32 GB RAM</li>
+</ul>
 <p><strong>Option 2: Cloud Bursting (Hybrid)</strong></p>
-<table>
-<thead>
-<tr>
-<th>รายการ</th>
-<th>ราคา/เดือน</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AWS EC2 (4 cores, 16 GB)</td>
-<td>฿5,000</td>
-</tr>
-<tr>
-<td>ใช้เฉพาะตอน traffic สูง</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>เฉลี่ย:</strong></td>
-<td><strong>~฿2,000/เดือน</strong></td>
-</tr>
-</tbody>
-</table>
+<ul>
+<li>AWS EC2 (4 cores, 16 GB): ฿5,000/เดือน</li>
+<li>ใช้เฉพาะตอน traffic สูง → <strong>เฉลี่ย ~฿2,000/เดือน</strong></li>
+</ul>
 <p><strong>Option 3: Edge Computing (สำหรับโรงงาน)</strong></p>
-<table>
-<thead>
-<tr>
-<th>รายการ</th>
-<th>ราคา</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Edge Server (เล็ก)</td>
-<td>฿150,000</td>
-</tr>
-<tr>
-<td>ติดตั้งที่โรงงาน</td>
-<td></td>
-</tr>
-<tr>
-<td>ลด load ที่ central</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>รวม</strong></td>
-<td><strong>฿150,000</strong></td>
-</tr>
-</tbody>
-</table>
+<ul>
+<li>Edge Server (เล็ก) ติดตั้งที่โรงงาน: <strong>฿150,000</strong></li>
+<li>ลด load ที่ central</li>
+</ul>
 <p><strong>คำแนะนำ:</strong></p>
 <ul>
 <li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> เริ่มจาก Optimize + Auto-scaling (ฟรี)</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> ถ้าไม่พอ → เพิ่ม worker node (฿350K)</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> หรือใช้ cloud bursting (฿2K/เดือน)</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> หรือ edge computing (฿150K)</li>
+<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> ถ้าไม่พอ → เพิ่ม worker node (฿350K) หรือ cloud bursting (฿2K/เดือน)</li>
 </ul>
 </div>
 <footer>August 2026</footer>
@@ -7523,79 +7449,53 @@ section::after {
 ;" data-marpit-pagination-total="112">
 <header>AI-Powered Internal Developer Framework</header>
 <h1 id="%F0%9F%92%B0-%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B-roi-%E0%B8%A3%E0%B8%A7%E0%B8%A1-benefit-%E0%B8%97%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B8%AB%E0%B8%A1%E0%B8%94"><img class="emoji" draggable="false" alt="💰" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f4b0.svg" data-marp-twemoji=""/> สรุป ROI: รวม Benefit ทั้งหมด</h1>
-<div class="highlight">
-<p><strong>Investment (การลงทุน):</strong></p>
-<ul>
-<li>Server: ฿0 (ใช้ของเดิม)</li>
-<li>Colocation: ฿703,200/ปี</li>
-<li>Team (2 people): ฿1,200,000/ปี</li>
-<li><strong>รวม: ฿1,903,200/ปี</strong></li>
-</ul>
-<p><strong>Returns (ผลตอบแทน):</strong></p>
+<div class="highlight" style="font-size: 0.8em;">
+<p><strong>Investment:</strong> ฿1,903,200/ปี (Colocation ฿703K + Team ฿1.2M)</p>
+<p><strong>Returns: ฿80,270,000/ปี</strong></p>
 <table>
 <thead>
 <tr>
 <th>Category</th>
 <th>Benefit/ปี</th>
-<th>วิธีวัด</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Cost Avoidance</strong></td>
+<td>Cost Avoidance</td>
 <td>฿900,000</td>
-<td>ไม่ต้องซื้อ server ใหม่</td>
 </tr>
 <tr>
-<td><strong>Time Savings</strong></td>
+<td>Time Savings (productivity +20%)</td>
 <td>฿2,400,000</td>
-<td>Developer productivity เพิ่ม 20%</td>
 </tr>
 <tr>
-<td><strong>Error Reduction</strong></td>
+<td>Error Reduction</td>
 <td>฿2,700,000</td>
-<td>ลด manual errors</td>
 </tr>
 <tr>
-<td><strong>Downtime Reduction</strong></td>
+<td>Downtime Reduction</td>
 <td>฿6,000,000</td>
-<td>Predictive maintenance</td>
 </tr>
 <tr>
-<td><strong>DORA Metrics</strong></td>
+<td>DORA Metrics</td>
 <td>฿30,120,000</td>
-<td>Deployment, lead time, MTTR</td>
 </tr>
 <tr>
-<td><strong>Innovation</strong></td>
+<td>Innovation (8 apps/ปี)</td>
 <td>฿800,000</td>
-<td>เพิ่ม 8 apps/ปี</td>
 </tr>
 <tr>
-<td><strong>Compliance</strong></td>
+<td>Compliance (risk avoidance)</td>
 <td>฿37,150,000</td>
-<td>Risk avoidance</td>
 </tr>
 <tr>
-<td><strong>Knowledge</strong></td>
-<td>฿200,000</td>
 <td>Knowledge retention</td>
-</tr>
-<tr>
-<td><strong>รวม</strong></td>
-<td><strong>฿80,270,000</strong></td>
-<td></td>
+<td>฿200,000</td>
 </tr>
 </tbody>
 </table>
-<p><strong>ROI Calculation:</strong></p>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code>ROI = (Returns - Investment) / Investment
-ROI = (฿80,270,000 - ฿1,903,200) / ฿1,903,200
-ROI = 4,118%
-
-Payback Period = 1.5 เดือน (ไม่ใช่ 1.5 ปี!)
-</code></pre>
-<p><strong>หมายเหตุ:</strong> ตัวเลขข้างบนเป็น &quot;conservative estimate&quot; — ตัวจริงอาจสูงกว่านี้</p>
+<p><strong>ROI = 4,118% | Payback = 1.5 เดือน</strong></p>
+<p><em>หมายเหตุ: ตัวเลขเป็น conservative estimate</em></p>
 </div>
 <footer>August 2026</footer>
 </section>
@@ -9470,37 +9370,26 @@ section::after {
 ;" data-marpit-pagination-total="112">
 <header>AI-Powered Internal Developer Framework</header>
 <h1 id="%F0%9F%8E%AF-%E0%B8%84%E0%B8%B3%E0%B9%81%E0%B8%99%E0%B8%B0%E0%B8%99%E0%B8%B3-%E0%B9%80%E0%B8%A3%E0%B8%B4%E0%B9%88%E0%B8%A1%E0%B8%AD%E0%B8%A2%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B9%84%E0%B8%A3"><img class="emoji" draggable="false" alt="🎯" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f3af.svg" data-marp-twemoji=""/> คำแนะนำ: เริ่มอย่างไร?</h1>
-<div class="highlight">
-<p><strong>Phase 1: Pilot Project (เดือน 1-2)</strong></p>
-<p><strong>เลือก 2 use cases:</strong></p>
-<ol>
-<li><img class="emoji" draggable="false" alt="🏭" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f3ed.svg" data-marp-twemoji=""/> <strong>โรงงาน:</strong> Predictive Maintenance App</li>
-<li><img class="emoji" draggable="false" alt="🏢" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f3e2.svg" data-marp-twemoji=""/> <strong>Back Office:</strong> Leave Approval System</li>
-</ol>
-<p><strong>เป้าหมาย:</strong></p>
+<div class="highlight" style="font-size: 0.85em;">
+<p><strong>Phase 1: Pilot (เดือน 1-2)</strong></p>
 <ul>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Deploy app แรกภายใน 2 สัปดาห์</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> วัด benefit จริง (time savings, error reduction)</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> สร้าง success story</li>
+<li><img class="emoji" draggable="false" alt="🏭" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f3ed.svg" data-marp-twemoji=""/> โรงงาน: Predictive Maintenance App</li>
+<li><img class="emoji" draggable="false" alt="🏢" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f3e2.svg" data-marp-twemoji=""/> Back Office: Leave Approval System</li>
+<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Deploy app แรกใน 2 สัปดาห์, วัด benefit จริง</li>
 </ul>
 <p><strong>Phase 2: Scale (เดือน 3-6)</strong></p>
-<p><strong>ขยายผล:</strong></p>
 <ul>
 <li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> เพิ่ม 5-10 apps</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> วัด DORA metrics</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> คำนวณ ROI จริง</li>
+<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> วัด DORA metrics + คำนวณ ROI จริง</li>
 </ul>
 <p><strong>Phase 3: Optimize (เดือน 7-12)</strong></p>
-<p><strong>ปรับปรุง:</strong></p>
 <ul>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Optimize resource usage</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> เพิ่ม automation</li>
+<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Optimize resource + เพิ่ม automation</li>
 <li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> สร้าง innovation culture</li>
 </ul>
 <p><strong>ผลลัพธ์:</strong></p>
 <ul>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> ROI &gt; 4,000%</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Payback &lt; 2 เดือน</li>
+<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> ROI &gt; 4,000% | Payback &lt; 2 เดือน</li>
 <li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> ผลงานที่วัดได้ชัดเจน</li>
 </ul>
 </div>
@@ -17540,34 +17429,26 @@ section::after {
 ;" data-marpit-pagination-total="112">
 <header>AI-Powered Internal Developer Framework</header>
 <h1 id="%F0%9F%93%8B-database-implementation-plan"><img class="emoji" draggable="false" alt="📋" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f4cb.svg" data-marp-twemoji=""/> Database Implementation Plan</h1>
-<div class="compact">
+<div class="compact" style="font-size: 0.85em;">
 <p><strong>Phase 1: SQL Server on Kubernetes (เดือน 1-2)</strong></p>
 <ul>
-<li>[ ] Deploy SQL Server on k8s (IT standard)</li>
-<li>[ ] สร้าง GitLab CI/CD template สำหรับ SQL Server</li>
-<li>[ ] Auto connection string injection</li>
-<li>[ ] Auto backup (S3/MinIO)</li>
+<li>Deploy SQL Server on k8s + GitLab CI/CD template</li>
+<li>Auto connection string injection + backup (S3/MinIO)</li>
 </ul>
 <p><strong>Phase 2: PostgreSQL + pgvector (เดือน 3)</strong></p>
 <ul>
-<li>[ ] Deploy CloudNativePG operator</li>
-<li>[ ] Enable pgvector extension</li>
-<li>[ ] สร้าง GitLab CI/CD template สำหรับ PostgreSQL</li>
-<li>[ ] Database branching สำหรับ preview environments</li>
+<li>Deploy CloudNativePG operator + enable pgvector</li>
+<li>Database branching สำหรับ preview environments</li>
 </ul>
 <p><strong>Phase 3: Database Lifecycle (เดือน 4-6)</strong></p>
 <ul>
-<li>[ ] Auto migration (Atlas/Flyway)</li>
-<li>[ ] Auto cleanup เมื่อ MR ปิด</li>
-<li>[ ] Read replicas สำหรับ scaling</li>
-<li>[ ] Documentation + templates</li>
+<li>Auto migration (Atlas/Flyway) + cleanup เมื่อ MR ปิด</li>
+<li>Read replicas + Documentation</li>
 </ul>
 <p><strong>ผลลัพธ์:</strong></p>
 <ul>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Zero config database provisioning</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> SQL Server (IT standard) + PostgreSQL + pgvector</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Database branching (เหมือน Neon)</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Auto backup, migration, cleanup</li>
+<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Zero config provisioning (SQL Server + PostgreSQL + pgvector)</li>
+<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Database branching, auto backup, migration, cleanup</li>
 </ul>
 </div>
 <footer>August 2026</footer>
@@ -22122,33 +22003,26 @@ section::after {
 ;" data-marpit-pagination-total="112">
 <header>AI-Powered Internal Developer Framework</header>
 <h1 id="%F0%9F%93%8B-security-implementation-plan"><img class="emoji" draggable="false" alt="📋" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f4cb.svg" data-marp-twemoji=""/> Security Implementation Plan</h1>
-<div class="compact">
+<div class="compact" style="font-size: 0.85em;">
 <p><strong>Phase 1 (เดือน 1-2): Kubernetes RBAC</strong></p>
 <ul>
-<li>[ ] Namespace per team</li>
-<li>[ ] Role/RoleBinding per namespace</li>
-<li>[ ] NetworkPolicy (deny cross-namespace)</li>
-<li>[ ] ResourceQuota (CPU/Memory/Storage limits)</li>
+<li>Namespace per team + Role/RoleBinding</li>
+<li>NetworkPolicy (deny cross-namespace) + ResourceQuota</li>
 </ul>
 <p><strong>Phase 2 (เดือน 3-4): Database/Queue RBAC</strong></p>
 <ul>
-<li>[ ] Auto-generate credentials per app</li>
-<li>[ ] Store credentials ใน Vault</li>
-<li>[ ] Inject credentials เป็น environment variables</li>
-<li>[ ] จำกัดสิทธิ์ per app</li>
+<li>Auto-generate credentials per app → Store ใน Vault</li>
+<li>Inject เป็น environment variables + จำกัดสิทธิ์ per app</li>
 </ul>
 <p><strong>Phase 3 (เดือน 5-6): Portal RBAC</strong></p>
 <ul>
-<li>[ ] Setup Backstage (optional)</li>
-<li>[ ] ติดตั้ง RBAC plugin</li>
-<li>[ ] กำหนด roles + permissions</li>
-<li>[ ] Audit logs</li>
+<li>Setup Backstage (optional) + RBAC plugin</li>
+<li>กำหนด roles + permissions + Audit logs</li>
 </ul>
 <p><strong>ผลลัพธ์:</strong></p>
 <ul>
 <li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Zero Config + Secure</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Namespace isolation</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Credentials per app</li>
+<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Namespace isolation + Credentials per app</li>
 <li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Audit ได้ทุกขั้นตอน</li>
 </ul>
 </div>
@@ -32709,34 +32583,26 @@ section::after {
 ;" data-marpit-pagination-total="112">
 <header>AI-Powered Internal Developer Framework</header>
 <h1 id="%F0%9F%93%8B-3-phases-implementation"><img class="emoji" draggable="false" alt="📋" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f4cb.svg" data-marp-twemoji=""/> 3 Phases Implementation</h1>
-<div class="compact">
-<p><strong>Phase 1: ทำให้ UX ใกล้ใกล้เคียง Vercel (เดือน 1-2)</strong></p>
+<div class="compact" style="font-size: 0.85em;">
+<p><strong>Phase 1: UX ใกล้ใกล้เคียง Vercel (เดือน 1-2)</strong></p>
 <ul>
-<li>[ ] GitLab CI/CD template (Zero config)</li>
-<li>[ ] Preview deployment อัตโนมัติทุก MR</li>
-<li>[ ] Auto cleanup เมื่อ merge/close MR</li>
-<li>[ ] Documentation สั้นๆ (1 หน้า)</li>
+<li>GitLab CI/CD template (Zero config) + Preview deployment ทุก MR</li>
+<li>Auto cleanup เมื่อ merge/close MR + Documentation สั้นๆ</li>
 </ul>
 <p><strong>Phase 2: เพิ่ม Incentive (เดือน 3)</strong></p>
 <ul>
-<li>[ ] Cost comparison (Vercel $20/seat vs เรา Free)</li>
-<li>[ ] Compliance benefits (PDPA, ISO)</li>
-<li>[ ] Data control benefits</li>
-<li>[ ] Success stories จาก pilot projects</li>
+<li>Cost comparison (Vercel $20/seat vs เรา Free)</li>
+<li>Compliance benefits (PDPA, ISO) + Success stories</li>
 </ul>
 <p><strong>Phase 3: Migration ง่าย (เดือน 4-6)</strong></p>
 <ul>
-<li>[ ] Migration guide (15-30 นาที)</li>
-<li>[ ] Template สำเร็จรูป (5-10 templates)</li>
-<li>[ ] Documentation ชัดเจน</li>
-<li>[ ] (Optional) Backstage Self-Service Portal</li>
+<li>Migration guide (15-30 นาที) + Template สำเร็จรูป</li>
+<li>(Optional) Backstage Self-Service Portal</li>
 </ul>
 <p><strong>ผลลัพธ์:</strong></p>
 <ul>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> User experience ใกล้ใกล้เคียง Vercel</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> ประหยัดเงิน $240/year/คน</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Data control + Compliance</li>
-<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Self-service จริงๆ</li>
+<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> UX ใกล้ใกล้เคียง Vercel | ประหยัด $240/year/คน</li>
+<li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Data control + Compliance | Self-service จริงๆ</li>
 </ul>
 </div>
 <footer>August 2026</footer>
