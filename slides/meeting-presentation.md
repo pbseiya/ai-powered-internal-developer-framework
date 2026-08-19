@@ -643,6 +643,80 @@ LLM Call → LiteLLM Log → Langfuse → Analyze → Wiki Update
 
 ---
 
+# 🔌 Network & Access: ไม่ต้องกังวลเรื่อง Port และ DNS
+
+<div class="highlight">
+
+**ปัญหาเดิม:**
+- ❌ User ต้องรู้ว่า app รันบน port ไหน
+- ❌ ต้องเปิด ticket ขอ IT สร้าง DNS record (รอ 1-3 วัน)
+- ❌ IT เป็น bottleneck สร้าง DNS ให้ทุก app
+
+**วิธีแก้:**
+- ✅ **Wildcard DNS** — IT ทำครั้งเดียว `*.apps.company.com`
+- ✅ **Ingress Controller** — Traefik จัดการ routing อัตโนมัติ
+- ✅ **ไม่ต้องเปิด ticket อีกเลย!**
+
+</div>
+
+---
+
+# 🌐 Wildcard DNS: IT ทำครั้งเดียว จบ!
+
+<div class="columns">
+<div>
+
+**สิ่งที่ IT ทำ (ครั้งเดียว):**
+1. สร้าง DNS: `*.apps.company.com`
+2. ชี้ไป IP ของ k3s cluster
+3. ตั้งค่า TLS certificate (Let's Encrypt)
+
+**เสร็จแล้ว!** ไม่ต้องทำอะไรอีก
+
+</div>
+<div>
+
+**สิ่งที่ User ทำ:**
+```yaml
+# แค่กำหนดชื่อใน Ingress
+spec:
+  rules:
+  - host: my-app.apps.company.com
+```
+
+**ผลลัพธ์:**
+- ✅ App เข้าถึงได้ทันที
+- ✅ ไม่ต้องรอ IT
+- ✅ ไม่ต้องรู้ port
+
+</div>
+</div>
+
+---
+
+# 🚀 ตัวอย่าง: Deploy แล้วได้ URL ทันที
+
+```bash
+# User push code → GitLab CI/CD deploy
+$ git push origin main
+
+# GitLab CI/CD สร้าง Ingress อัตโนมัติ
+$ kubectl apply -f ingress.yaml
+
+# ✅ App พร้อมใช้งาน!
+🎉 Your app is live at: http://my-app.apps.company.com
+```
+
+**ไม่ต้อง:**
+- ❌ เปิด ticket ขอ DNS
+- ❌ รอ IT สร้าง record
+- ❌ รู้ว่า app รันบน port ไหน
+- ❌ ตั้งค่า firewall
+
+**แค่ push code → ได้ URL ทันที!**
+
+---
+
 # 📅 Phase 1: Foundation (Month 1-2)
 
 <div class="compact">
