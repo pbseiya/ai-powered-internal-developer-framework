@@ -717,6 +717,206 @@ $ kubectl apply -f ingress.yaml
 
 ---
 
+# 🆚 เปรียบเทียบกับ Vercel/Cloudflare
+
+<div class="columns">
+<div>
+
+**Vercel/Cloudflare ทำอย่างไร?**
+- ✅ Push code → ได้ URL อัตโนมัติ
+- ✅ Preview ทุก PR อัตโนมัติ
+- ✅ Zero config (ไม่ต้องเขียน YAML)
+- ✅ Global CDN
+
+**ข้อเสีย:**
+- ❌ ข้อมูลอยู่บน cloud ของเขา
+- ❌ ค่าใช้จ่าย $20/seat/month
+- ❌ ควบคุมไม่ได้ (PDPA, ISO)
+
+</div>
+<div>
+
+**วิธีของเรา (k3s + GitLab)**
+- ✅ Push code → ได้ URL อัตโนมัติ (ผ่าน GitLab CI/CD)
+- ✅ Preview ทุก MR อัตโนมัติ
+- ✅ Zero config (แค่ include template)
+- ✅ ข้อมูลอยู่ในองค์กร
+
+**ข้อดี:**
+- ✅ **Free** (ประหยัด $20/seat/month)
+- ✅ **Data control** (PDPA, ISO)
+- ✅ **Compliance** (audit ได้)
+
+</div>
+</div>
+
+---
+
+# 🎯 UX ต้องใกล้เคียง Vercel
+
+**Vercel experience:**
+```bash
+$ git push origin main
+# 30 วินาที...
+🎉 https://my-app.vercel.app
+```
+
+**วิธีของเรา (ทำให้ใกล้เคียง):**
+```bash
+$ git push origin main
+# GitLab CI/CD ทำทุกอย่างอัตโนมัติ
+# 1-2 นาที...
+🎉 https://my-app.apps.company.com
+```
+
+**สิ่งที่ User ต้องทำ:**
+```yaml
+# .gitlab-ci.yml (แค่ include template)
+include:
+  - project: 'platform/ci-templates'
+    file: '/k3s-deploy.yml'
+
+variables:
+  APP_NAME: my-app
+  APP_PORT: 3000
+```
+
+**✅ ไม่ต้องเขียน Ingress YAML เอง!**
+**✅ ไม่ต้องรัน kubectl เอง!**
+
+---
+
+# 🚀 Preview Deployment (เหมือน Vercel)
+
+**Vercel:**
+```
+MR #123 → https://my-app-git-123.vercel.app
+MR #124 → https://my-app-git-124.vercel.app
+```
+
+**วิธีของเรา:**
+```
+MR #123 → https://my-app-mr-123.apps.company.com
+MR #124 → https://my-app-mr-124.apps.company.com
+```
+
+**GitLab CI/CD template สร้าง preview อัตโนมัติ:**
+```yaml
+deploy:preview:
+  script:
+    - |
+      kubectl apply -f - <<EOF
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: $CI_PROJECT_NAME-mr-$CI_MERGE_REQUEST_IID
+      spec:
+        rules:
+        - host: $CI_PROJECT_NAME-mr-$CI_MERGE_REQUEST_IID.apps.company.com
+          http:
+            paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: $CI_PROJECT_NAME
+                  port:
+                    number: 80
+      EOF
+    - echo "🎉 Preview: https://$CI_PROJECT_NAME-mr-$CI_MERGE_REQUEST_IID.apps.company.com"
+```
+
+**✅ Preview อัตโนมัติทุก MR!**
+**✅ Auto cleanup เมื่อ merge/close!**
+
+---
+
+# 💰 ทำไม User จะยอมเปลี่ยน?
+
+<div class="columns">
+<div>
+
+**Incentive ที่ชัดเจน:**
+
+**1. Cost**
+- Vercel: $20/seat/month
+- เรา: **Free**
+- **ประหยัด $240/year/คน!**
+
+**2. Data Control**
+- Vercel: ข้อมูลอยู่บน cloud
+- เรา: **อยู่ในองค์กร**
+- **PDPA, ISO compliant**
+
+</div>
+<div>
+
+**3. Compliance**
+- Vercel: ต้องตรวจสอบ
+- เรา: **ควบคุมเองได้**
+- **Audit ได้ทุกขั้นตอน**
+
+**4. Custom Backend**
+- Vercel: จำกัด
+- เรา: **อะไรก็ได้**
+- **Database, API, etc.**
+
+**สรุป:**
+- ✅ ประหยัดเงิน
+- ✅ ควบคุมข้อมูล
+- ✅ Compliance ดี
+- ✅ ยืดหยุ่นกว่า
+
+</div>
+</div>
+
+---
+
+# 🛠️ ใช้ Open Source ทั้งหมด
+
+| Phase | สิ่งที่ต้องทำ | Open Source Tool | Cost |
+|-------|--------------|------------------|------|
+| **Phase 1: UX** | Zero config deployment | **GitLab CE** | Free |
+| **Phase 2: Incentive** | Documentation | ไม่ต้องใช้ tool | Free |
+| **Phase 3: Migration** | Templates + guides | ไม่ต้องใช้ tool | Free |
+| **Phase 3 (Advanced)** | Self-Service Portal | **Backstage** (Spotify) | Free |
+
+**รวม Cost: $0 (Free ทั้งหมด!)**
+
+---
+
+# 📋 3 Phases Implementation
+
+<div class="compact">
+
+**Phase 1: ทำให้ UX ใกล้ใกล้เคียง Vercel (เดือน 1-2)**
+- [ ] GitLab CI/CD template (Zero config)
+- [ ] Preview deployment อัตโนมัติทุก MR
+- [ ] Auto cleanup เมื่อ merge/close MR
+- [ ] Documentation สั้นๆ (1 หน้า)
+
+**Phase 2: เพิ่ม Incentive (เดือน 3)**
+- [ ] Cost comparison (Vercel $20/seat vs เรา Free)
+- [ ] Compliance benefits (PDPA, ISO)
+- [ ] Data control benefits
+- [ ] Success stories จาก pilot projects
+
+**Phase 3: Migration ง่าย (เดือน 4-6)**
+- [ ] Migration guide (15-30 นาที)
+- [ ] Template สำเร็จรูป (5-10 templates)
+- [ ] Documentation ชัดเจน
+- [ ] (Optional) Backstage Self-Service Portal
+
+**ผลลัพธ์:**
+- ✅ User experience ใกล้ใกล้เคียง Vercel
+- ✅ ประหยัดเงิน $240/year/คน
+- ✅ Data control + Compliance
+- ✅ Self-service จริงๆ
+
+</div>
+
+---
+
 # 📅 Phase 1: Foundation (Month 1-2)
 
 <div class="compact">
