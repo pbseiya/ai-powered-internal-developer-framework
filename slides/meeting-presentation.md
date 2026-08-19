@@ -3,7 +3,7 @@ marp: true
 theme: default
 paginate: true
 header: AI-Powered Internal Developer Framework
-footer: IRPC | August 2026
+footer: August 2026
 style: |
   section {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -165,7 +165,7 @@ style: |
 
 <p style="color: white; opacity: 0.85; font-size: 1em; margin-top: 1em;">สนับสนุนทุกไอเดีย ให้ deploy ได้เร็ว ปลอดภัย และยั่งยืน</p>
 
-<p style="color: white; opacity: 0.8; font-size: 0.9em; margin-top: 2em;">IRPC | สิงหาคม 2026</p>
+<p style="color: white; opacity: 0.8; font-size: 0.9em; margin-top: 2em;">สิงหาคม 2026</p>
 
 ---
 
