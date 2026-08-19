@@ -1061,6 +1061,335 @@ Developer (team-a) → เข้า Portal
 
 ---
 
+# 💻 Resource Management & Scaling
+
+<div class="highlight">
+
+**คำถามสำคัญ:** "ต้องเตรียมเครื่อง Server เท่าไหร่? จะ Scale อย่างไร?"
+
+**คำตอบ:** ✅ **ใช้ Kubernetes Auto-Scaling + ประมาณการเงินตามจริง**
+
+1. **Resource Requirements** — k8s cluster ต้องการเท่าไหร่?
+2. **Scaling Strategy** — Scale Up vs Scale Out
+3. **Cost Estimation** — ซื้อ vs เช่า ราคาเท่าไหร่?
+
+</div>
+
+---
+
+# 📊 Resource Requirements: k8s Cluster
+
+<div class="columns">
+<div>
+
+**Minimum Production Cluster:**
+
+**Control Plane (3 nodes - HA):**
+- CPU: 4 cores
+- RAM: 8 GB
+- Storage: 100 GB SSD
+- **รวม:** 12 cores, 24 GB RAM
+
+**Worker Nodes (เริ่มต้น 3 nodes):**
+- CPU: 8 cores/node
+- RAM: 32 GB/node
+- Storage: 500 GB SSD/node
+- **รวม:** 24 cores, 96 GB RAM
+
+**รวม Cluster:**
+- **36 cores, 120 GB RAM**
+- **1.6 TB Storage**
+
+</div>
+<div>
+
+**Resource per App (โดยประมาณ):**
+
+| App Type | CPU | RAM | Storage |
+|----------|-----|-----|---------|
+| **Web App** | 0.5 core | 512 MB | 1 GB |
+| **API Service** | 1 core | 1 GB | 2 GB |
+| **Database** | 2 cores | 4 GB | 50 GB |
+| **Message Queue** | 1 core | 2 GB | 10 GB |
+| **AI/ML Service** | 2 cores | 4 GB | 5 GB |
+
+**รองรับได้:**
+- 10-20 apps (mixed workloads)
+- 50-100 pods
+- 1,000-2,000 requests/second
+
+</div>
+</div>
+
+---
+
+# 📈 Scaling Strategy: Up vs Out
+
+<div class="columns">
+<div>
+
+**Scale Up (Vertical Scaling)**
+
+**เพิ่มทรัพยากรให้ node เดิม:**
+- เพิ่ม CPU/RAM ให้ node
+- ง่าย ไม่ต้องเพิ่ม node ใหม่
+- เหมาะกับ stateful workloads (database)
+
+**ข้อดี:**
+- ✅ ง่าย เร็ว
+- ✅ ไม่ต้อง re-architect
+- ✅ เหมาะกับ database
+
+**ข้อเสีย:**
+- ❌ มีขีดจำกัด (hardware limit)
+- ❌ Downtime ตอน upgrade
+- ❌ แพงกว่า (diminishing returns)
+
+</div>
+<div>
+
+**Scale Out (Horizontal Scaling)**
+
+**เพิ่ม node ใหม่เข้า cluster:**
+- เพิ่ม worker nodes
+- k8s กระจาย workload อัตโนมัติ
+- เหมาะกับ stateless workloads (web apps)
+
+**ข้อดี:**
+- ✅ ไม่จำกัด (เพิ่มได้เรื่อยๆ)
+- ✅ No downtime
+- ✅ ถูกกว่า (commodity hardware)
+
+**ข้อเสีย:**
+- ⚠️ ต้อง design สำหรับ distributed
+- ⚠️ ซับซ้อนกว่า
+- ⚠️ ต้องการ load balancer
+
+**คำแนะนำ:** ใช้ **Scale Out** เป็นหลัก + **Scale Up** สำหรับ database
+
+</div>
+</div>
+
+---
+
+# 🔄 Kubernetes Auto-Scaling
+
+**ใช้ 2 ระบบร่วมกัน:**
+
+<div class="compact">
+
+**1. Horizontal Pod Autoscaler (HPA)**
+```yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: web-app-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: web-app
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+```
+
+**ทำงาน:** เพิ่ม pods เมื่อ CPU > 70%
+
+**2. Cluster Autoscaler**
+```yaml
+# เพิ่ม nodes เมื่อ pods รอ queue นาน
+--scale-down-delay-after-add=10m
+--scale-down-unneeded-time=10m
+```
+
+**ทำงาน:** เพิ่ม nodes เมื่อ pods รอ queue > 10 วินาที
+
+**ผลลัพธ์:**
+- ✅ Auto-scale pods ตาม workload
+- ✅ Auto-scale nodes ตาม pods
+- ✅ ลด cost ตอน traffic ต่ำ
+- ✅ รองรับ traffic spike อัตโนมัติ
+
+</div>
+
+---
+
+# 💰 Cost Estimation: ซื้อ vs เช่า
+
+<div class="columns">
+<div>
+
+**Option 1: ซื้อเครื่อง (On-Premise)**
+
+**Hardware (3-year amortization):**
+
+| Item | Qty | Price/Unit | Total |
+|------|-----|------------|-------|
+| **Dell PowerEdge R750** | 3 | ฿350,000 | ฿1,050,000 |
+| (48 cores, 128 GB RAM, 2TB SSD) | | | |
+| **Network Switch** | 1 | ฿150,000 | ฿150,000 |
+| (10GbE, 24 ports) | | | |
+| **UPS** | 1 | ฿100,000 | ฿100,000 |
+| (10kVA, online) | | | |
+| **รวม Hardware** | | | **฿1,300,000** |
+
+**Colocation (Data Center):**
+
+| Item | Monthly | Yearly |
+|------|---------|--------|
+| Full Rack (42U) | ฿42,000 | ฿504,000 |
+| Internet (1Gbps) | ฿15,000 | ฿180,000 |
+| IP Address (16 IPs) | ฿1,600 | ฿19,200 |
+| **รวม Colocation** | **฿58,600** | **฿703,200** |
+
+**รวม 3 ปี:**
+- Hardware: ฿1,300,000
+- Colocation: ฿2,109,600
+- **รวม: ฿3,409,600**
+- **เฉลี่ย: ฿94,711/เดือน**
+
+</div>
+<div>
+
+**Option 2: เช่าเครื่อง (Cloud/Colocation)**
+
+**Dedicated Server (3 nodes):**
+
+| Item | Monthly/Node | Total Monthly |
+|------|--------------|---------------|
+| **Dell R750** | ฿45,000 | ฿135,000 |
+| (48 cores, 128 GB RAM, 2TB SSD) | | |
+| **Network Switch** | ฿5,000 | ฿5,000 |
+| **UPS** | ฿3,000 | ฿3,000 |
+| **รวม** | **฿53,000** | **฿143,000** |
+
+**Colocation:**
+
+| Item | Monthly |
+|------|---------|
+| Full Rack (42U) | ฿42,000 |
+| Internet (1Gbps) | ฿15,000 |
+| IP Address (16 IPs) | ฿1,600 |
+| **รวม Colocation** | **฿58,600** |
+
+**รวมรายเดือน:**
+- Server rental: ฿143,000
+- Colocation: ฿58,600
+- **รวม: ฿201,600/เดือน**
+
+**เปรียบเทียบ:**
+- ซื้อ: ฿94,711/เดือน (3-year avg)
+- เช่า: ฿201,600/เดือน
+- **ซื้อถูกกว่า 53%!**
+
+</div>
+</div>
+
+---
+
+# 💡 คำแนะนำ: Hybrid Approach
+
+<div class="highlight">
+
+**Phase 1 (เดือน 1-6): เช่าเครื่อง**
+- ✅ ไม่ต้องลงทุนสูง
+- ✅ ทดสอบระบบก่อน
+- ✅ ปรับขนาดได้ตามต้องการ
+- **Cost: ~฿200,000/เดือน**
+
+**Phase 2 (เดือน 7+): ซื้อเครื่อง**
+- ✅ ประหยัดกว่าในระยะยาว
+- ✅ ควบคุม hardware เอง
+- ✅ Depreciation 3-5 ปี
+- **Cost: ~฿95,000/เดือน (3-year avg)**
+
+**ROI:**
+- ปีที่ 1: เช่า = ฿2.4M
+- ปีที่ 2-3: ซื้อ = ฿1.1M/ปี
+- **ประหยัด: ฿1.3M ใน 3 ปี**
+
+**คำแนะนำ:** เริ่มเช่า 6 เดือน → ถ้า workload คงที่ → ซื้อเครื่อง
+
+</div>
+
+---
+
+# 📊 Resource Monitoring & Optimization
+
+<div class="columns">
+<div>
+
+**Monitoring Stack:**
+
+**1. Prometheus + Grafana**
+- เก็บ metrics (CPU, RAM, disk, network)
+- แสดง dashboard แบบ real-time
+- Alert เมื่อ resource ใกล้เต็ม
+
+**2. Kubernetes Metrics Server**
+```bash
+kubectl top nodes
+kubectl top pods
+```
+
+**3. Vertical Pod Autoscaler (VPA)**
+- แนะนำ resource requests/limits
+- ปรับขนาด pods อัตโนมัติ
+
+**4. Kubecost**
+- แสดง cost per namespace/app
+- หา optimization opportunities
+- แสดง wasted resources
+
+</div>
+<div>
+
+**Optimization Strategies:**
+
+**1. Right-sizing**
+- ตั้ง requests/limits ให้เหมาะสม
+- ใช้ VPA recommendations
+- Avoid over-provisioning
+
+**2. Resource Quotas**
+```yaml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: team-a-quota
+spec:
+  hard:
+    requests.cpu: "10"
+    requests.memory: 20Gi
+    limits.cpu: "20"
+    limits.memory: 40Gi
+```
+
+**3. Pod Disruption Budgets**
+- รองรับ maintenance โดยไม่ downtime
+- ควบคุม minimum availability
+
+**4. Spot/Preemptible Instances**
+- ใช้ cloud spot instances (ถูกกว่า 70%)
+- เหมาะกับ batch jobs, dev environments
+
+**ผลลัพธ์:**
+- ✅ ลด waste 20-30%
+- ✅ ประหยัด cost 15-25%
+- ✅ Optimize resource utilization
+
+</div>
+</div>
+
+---
+
 <!-- _class: lead -->
 
 # 🤝 ขั้นตอนสาม
