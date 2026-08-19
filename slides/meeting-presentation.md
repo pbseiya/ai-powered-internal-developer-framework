@@ -375,17 +375,28 @@ style: |
 
 ---
 
-# 🛠️ Tech Stack (1/2)
+# 🛠️ Tech Stack (1/3)
 
 | Layer | Tool | หน้าที่ |
 |-------|------|---------|
 | Git + CI | **GitLab** | Git server + CI/CD pipeline |
 | CD | **ArgoCD** | GitOps deploy to k8s |
-| Orchestration | **k8s** | Lightweight Kubernetes |
+| Orchestration | **k8s** | Container orchestration |
 
 ---
 
-# 🛠️ Tech Stack (2/2)
+# 🛠️ Tech Stack (2/3)
+
+| Layer | Tool | หน้าที่ |
+|-------|------|---------|
+| RDB (Primary) | **SQL Server** | Main database (IT standard) |
+| RDB (Alternative) | **PostgreSQL** | Open-source option |
+| Vector DB | **pgvector** | AI embeddings, RAG |
+| DB Operator | **CloudNativePG** | PostgreSQL automation |
+
+---
+
+# 🛠️ Tech Stack (3/3)
 
 | Layer | Tool | หน้าที่ |
 |-------|------|---------|
@@ -394,6 +405,310 @@ style: |
 | Secrets | **Vault** | API keys, credentials |
 | Registry | **Harbor** | Container images |
 | Monitoring | **Prometheus + Grafana** | Metrics, dashboards |
+
+---
+
+# 🗄️ Database: Zero Config Provisioning
+
+<div class="highlight">
+
+**ปัญหาเดิม:**
+- ❌ ต้องเปิด ticket ขอ IT สร้าง database (รอ 1-3 วัน)
+- ❌ ต้อง config connection string เอง
+- ❌ ไม่มี database สำหรับ preview environments
+- ❌ ไม่มี vector DB สำหรับ AI/RAG
+
+**วิธีแก้:**
+- ✅ **Self-service database** — สร้างได้ทันทีผ่าน GitLab CI/CD
+- ✅ **Auto connection strings** — Inject เป็น environment variables อัตโนมัติ
+- ✅ **Database branching** — สร้าง database branch ทุก MR (เหมือน Neon)
+- ✅ **Vector DB built-in** — pgvector พร้อมใช้สำหรับ AI
+
+</div>
+
+---
+
+# 🎯 Database Options: เลือกตามความต้องการ
+
+<div class="columns">
+<div>
+
+**1. SQL Server (IT Standard)**
+- ✅ IT สนับสนุนเต็มที่
+- ✅ Enterprise-grade, HA/DR พร้อม
+- ✅ Compatible กับระบบเดิม
+- ✅ มี license อยู่แล้ว
+
+**เหมาะสำหรับ:**
+- Legacy systems
+- Enterprise applications
+- ระบบที่ต้องการ SQL Server features
+
+</div>
+<div>
+
+**2. PostgreSQL (Open Source)**
+- ✅ Free, no license cost
+- ✅ pgvector built-in (AI/RAG)
+- ✅ CloudNativePG operator
+- ✅ Database branching (Neon-style)
+
+**เหมาะสำหรับ:**
+- New applications
+- AI/ML projects
+- ระบบที่ต้องการ flexibility
+
+**3. pgvector (Vector DB)**
+- ✅ Vector search ใน PostgreSQL
+- ✅ ไม่ต้องรัน vector DB แยก
+- ✅ Compatible กับ OpenAI embeddings
+- ✅ ใช้สำหรับ RAG, semantic search
+
+</div>
+</div>
+
+---
+
+# 🚀 ตัวอย่าง: สร้าง Database แบบ Zero Config
+
+**GitLab CI/CD Template:**
+```yaml
+# .gitlab-ci.yml
+include:
+  - project: 'platform/db-templates'
+    file: '/sqlserver.yml'  # หรือ '/postgresql.yml'
+
+variables:
+  DB_NAME: myapp
+  DB_SIZE: 10Gi
+  DB_TYPE: sqlserver  # หรือ postgresql
+```
+
+**ผลลัพธ์:**
+```bash
+$ git push origin main
+# GitLab CI/CD สร้าง database อัตโนมัติ
+# Inject connection string เป็น environment variable
+🎉 Database ready: myapp-db.apps.company.com
+🔑 Connection string injected to: $DATABASE_URL
+```
+
+**ไม่ต้อง:**
+- ❌ เปิด ticket ขอ IT
+- ❌ Config connection string เอง
+- ❌ รอ 1-3 วัน
+
+---
+
+# 🔀 Database Branching: เหมือน Neon
+
+**NeonDB ทำอย่างไร:**
+```
+Developer เปิด PR → สร้าง database branch ใน 1 วินาที
+→ รัน tests → ลบ branch เมื่อ PR ปิด
+```
+
+**วิธีของเรา (ทำเหมือนกัน):**
+```
+MR #123 → สร้าง database branch: myapp-mr-123
+MR #124 → สร้าง database branch: myapp-mr-124
+→ รัน tests → ลบ branch เมื่อ MR ปิด
+```
+
+**GitLab CI/CD Template:**
+```yaml
+create-db-branch:
+  script:
+    - |
+      # สร้าง database branch (PostgreSQL)
+      DB_BRANCH="myapp-mr-${CI_MERGE_REQUEST_IID}"
+      kubectl exec postgres-0 -- \
+        psql -c "CREATE DATABASE ${DB_BRANCH} WITH TEMPLATE myapp_main;"
+      
+      # Inject connection string
+      echo "DATABASE_URL=postgresql://..." >> .env
+      
+  only:
+    - merge_requests
+
+cleanup-db-branch:
+  script:
+    - kubectl exec postgres-0 -- psql -c "DROP DATABASE ${DB_BRANCH};"
+  when: on_success
+  only:
+    - merge_requests
+```
+
+---
+
+# 🧠 Vector DB สำหรับ AI/RAG
+
+**ปัญหา:**
+- AI applications ต้องการ vector storage สำหรับ embeddings
+- ต้องรัน vector DB แยก (Pinecone, Weaviate, Milvus)
+- ซับซ้อนและแพง
+
+**วิธีแก้: pgvector**
+- ✅ Vector search ใน PostgreSQL เดียวกัน
+- ✅ ไม่ต้องรัน vector DB แยก
+- ✅ Compatible กับ OpenAI embeddings
+- ✅ Free, open-source
+
+**ตัวอย่าง:**
+```sql
+-- Enable pgvector
+CREATE EXTENSION vector;
+
+-- Create table with vector column
+CREATE TABLE documents (
+  id bigserial PRIMARY KEY,
+  content text,
+  embedding vector(1536)  -- OpenAI embedding dimension
+);
+
+-- Create index for fast search
+CREATE INDEX ON documents 
+USING ivfflat (embedding vector_cosine_ops);
+
+-- Query similar documents
+SELECT content, embedding <=> $1 AS distance
+FROM documents
+ORDER BY distance LIMIT 10;
+```
+
+**Zero Config:**
+```yaml
+# .gitlab-ci.yml
+include:
+  - project: 'platform/db-templates'
+    file: '/postgresql-pgvector.yml'
+
+variables:
+  DB_NAME: myapp-ai
+  ENABLE_PGVECTOR: "true"
+```
+
+---
+
+# 📊 Database Lifecycle Management
+
+<div class="columns">
+<div>
+
+**Auto Backup:**
+- ✅ Backup อัตโนมัติทุก 6 ชั่วโมง
+- ✅ เก็บไว้ 30 วัน
+- ✅ Point-in-time recovery
+- ✅ เก็บใน S3/MinIO
+
+**Auto Migration:**
+- ✅ Schema migration อัตโนมัติ
+- ✅ ใช้ Atlas หรือ Flyway
+- ✅ Version control สำหรับ schema
+- ✅ Rollback ได้
+
+</div>
+<div>
+
+**Auto Cleanup:**
+- ✅ ลบ database branch เมื่อ MR ปิด
+- ✅ ลบ preview databases ที่ไม่ได้ใช้
+- ✅ Free up storage อัตโนมัติ
+
+**Auto Scaling:**
+- ✅ Read replicas สำหรับ read-heavy workloads
+- ✅ Connection pooling (PgBouncer)
+- ✅ Horizontal scaling ได้
+
+</div>
+</div>
+
+---
+
+# 💰 Cost Comparison: Database
+
+| Feature | NeonDB | Supabase | วิธีของเรา |
+|---------|--------|----------|-----------|
+| **Cost** | $19/seat/mo | $25/seat/mo | **Free** (self-hosted) |
+| **SQL Server** | ❌ | ❌ | ✅ **มี** (IT standard) |
+| **PostgreSQL** | ✅ | ✅ | ✅ |
+| **Vector DB** | ✅ | ✅ | ✅ **pgvector** |
+| **Database branching** | ✅ | ❌ | ✅ **มี** |
+| **Auto backup** | ✅ | ✅ | ✅ |
+| **Data control** | ❌ (cloud) | ❌ (cloud) | ✅ **ในองค์กร** |
+| **Compliance** | ⚠️ | ⚠️ | ✅ **PDPA, ISO** |
+
+**สรุป:**
+- ✅ ถูกกว่า (Free vs $19-25/seat/mo)
+- ✅ มี SQL Server (Neon/Supabase ไม่มี)
+- ✅ Data control + Compliance
+- ✅ ฟีเจอร์ครบ (branching, vector DB, backup)
+
+---
+
+# 🎯 Developer Experience: เปรียบเทียบ
+
+**NeonDB Experience:**
+```bash
+$ git push origin main
+# Neon สร้าง database branch อัตโนมัติ
+# Inject DATABASE_URL
+🎉 Database: pr-123.neon.tech
+🔑 $DATABASE_URL injected
+```
+
+**Supabase Experience:**
+```bash
+$ stripe projects provision supabase
+# สร้าง project พร้อม database, auth, storage
+🎉 Project ready
+🔑 Credentials in .env
+```
+
+**วิธีของเรา (ใกล้เคียงกัน):**
+```bash
+$ git push origin main
+# GitLab CI/CD สร้าง database อัตโนมัติ
+# Inject connection string
+🎉 Database: myapp-db.apps.company.com
+🔑 $DATABASE_URL injected
+```
+
+**✅ UX ใกล้ใกล้เคียง Neon/Supabase!**
+**✅ แต่ใช้ SQL Server ได้ (IT standard)**
+**✅ Data อยู่ในองค์กร (Compliance)**
+
+---
+
+# 📋 Database Implementation Plan
+
+<div class="compact">
+
+**Phase 1: SQL Server on Kubernetes (เดือน 1-2)**
+- [ ] Deploy SQL Server on k8s (IT standard)
+- [ ] สร้าง GitLab CI/CD template สำหรับ SQL Server
+- [ ] Auto connection string injection
+- [ ] Auto backup (S3/MinIO)
+
+**Phase 2: PostgreSQL + pgvector (เดือน 3)**
+- [ ] Deploy CloudNativePG operator
+- [ ] Enable pgvector extension
+- [ ] สร้าง GitLab CI/CD template สำหรับ PostgreSQL
+- [ ] Database branching สำหรับ preview environments
+
+**Phase 3: Database Lifecycle (เดือน 4-6)**
+- [ ] Auto migration (Atlas/Flyway)
+- [ ] Auto cleanup เมื่อ MR ปิด
+- [ ] Read replicas สำหรับ scaling
+- [ ] Documentation + templates
+
+**ผลลัพธ์:**
+- ✅ Zero config database provisioning
+- ✅ SQL Server (IT standard) + PostgreSQL + pgvector
+- ✅ Database branching (เหมือน Neon)
+- ✅ Auto backup, migration, cleanup
+
+</div>
 
 ---
 
