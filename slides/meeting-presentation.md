@@ -858,6 +858,209 @@ $ git push origin main
 
 ---
 
+# 🔐 Security & Access Control: 3 Layers of RBAC
+
+<div class="highlight">
+
+**คำถามสำคัญ:** "Zero Config ปลอดภัยไหม? ทีมอื่นจะ access database/queue ของเราได้ไหม?"
+
+**คำตอบ:** ✅ **ปลอดภัยด้วย 3 Layers ของ RBAC**
+
+1. **Kubernetes RBAC** — Namespace isolation (ทีม A เข้าไม่ได้ namespace ทีม B)
+2. **Database/Queue RBAC** — Credentials per app (app A access ไม่ได้ DB ของ app B)
+3. **Portal RBAC** — UI access control (Developer เห็นเฉพาะ app ของตัวเอง)
+
+</div>
+
+---
+
+# 🛡️ Layer 1: Kubernetes RBAC (Namespace Isolation)
+
+<div class="columns">
+<div>
+
+**หลักการ:**
+```
+k8s Cluster
+├── Namespace: team-a
+│   ├── App A
+│   ├── DB A
+│   └── Queue A
+├── Namespace: team-b
+│   ├── App B
+│   ├── DB B
+│   └── Queue B
+```
+
+**สิ่งที่ต้องทำ:**
+- ✅ Namespace per team/app
+- ✅ Role/RoleBinding per namespace
+- ✅ NetworkPolicy (ป้องกัน cross-namespace)
+- ✅ ResourceQuota (จำกัด CPU/Memory)
+
+</div>
+<div>
+
+**ตัวอย่าง NetworkPolicy:**
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-cross-namespace
+  namespace: team-a
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: team-a
+```
+
+**ผลลัพธ์:**
+- ✅ ทีม A เข้า namespace ทีม B ไม่ได้
+- ✅ Pod ของทีม A communicate กับทีม B ไม่ได้
+- ✅ Isolation สมบูรณ์
+
+</div>
+</div>
+
+---
+
+# 🔑 Layer 2: Database/Queue RBAC (Resource Level)
+
+<div class="columns">
+<div>
+
+**RabbitMQ:**
+```
+Shared RabbitMQ Cluster
+├── VHost: team-a-app-1
+│   └── user: team-a-app-1 (access เฉพาะ vhost นี้)
+├── VHost: team-b-app-1
+│   └── user: team-b-app-1
+```
+
+**SQL Server:**
+```
+Shared SQL Server
+├── Database: team_a_app_1
+│   └── login: team_a_app_1 (access เฉพาะ DB นี้)
+├── Database: team_b_app_1
+│   └── login: team_b_app_1
+```
+
+</div>
+<div>
+
+**สิ่งที่ต้องทำ:**
+- ✅ Auto-generate credentials per app
+- ✅ Store credentials ใน Vault
+- ✅ Inject credentials เป็น environment variables
+- ✅ จำกัดสิทธิ์ (app A access ไม่ได้ DB ของ app B)
+
+**Workflow:**
+```
+Developer กด "Create Database"
+→ Portal สร้าง database + credentials
+→ เก็บ credentials ใน Vault
+→ Inject เป็น $DATABASE_URL
+→ Developer ใช้ได้ทันที
+→ ทีมอื่น access ไม่ได้
+```
+
+</div>
+</div>
+
+---
+
+# 🎨 Layer 3: Portal RBAC (User Interface Level)
+
+**ใช้ Backstage RBAC Plugin (Open Source)**
+
+<div class="compact">
+
+**ตัวอย่าง Roles:**
+
+| Role | เห็นอะไร | ทำอะไรได้ |
+|------|---------|----------|
+| **Developer** | App ของตัวเองเท่านั้น | Deploy dev/staging, สร้าง DB/Queue |
+| **Tech Lead** | App ในทีมตัวเอง | Approve production deploy |
+| **SA** | ทุก app | Review architecture |
+| **Infra** | ทุก app + infrastructure | Manage clusters, operators |
+| **Admin** | ทุกอย่าง | ทุกอย่าง |
+
+**สิ่งที่ Backstage RBAC ทำได้:**
+- ✅ ควบคุมการเข้าถึง plugins, routes, data
+- ✅ กำหนด roles + permissions ผ่าน UI (no-code)
+- ✅ Conditional permissions (dev ทำได้เฉพาะ dev environment)
+- ✅ Audit logs (ใครทำอะไร เมื่อไหร่)
+
+</div>
+
+---
+
+# 🔄 ตัวอย่าง: Workflow ที่สมบูรณ์
+
+```
+Developer (team-a) → เข้า Portal
+                    ↓
+              เห็นเฉพาะ App ของ team-a
+                    ↓
+              กด "Create Database"
+                    ↓
+              Portal ตรวจสอบ:
+              - User เป็น developer ของ team-a? ✅
+              - team-a มี quota เหลือไหม? ✅
+              - Database name ซ้ำไหม? ✅
+                    ↓
+              Portal เรียก GitLab CI/CD:
+              - สร้าง database ใน namespace team-a
+              - สร้าง credentials ใน Vault
+              - Inject connection string
+                    ↓
+              Developer ได้ database ทันที
+              (ทีมอื่น access ไม่ได้)
+```
+
+**✅ Zero Config + Secure + Audit ได้!**
+
+---
+
+# 📋 Security Implementation Plan
+
+<div class="compact">
+
+**Phase 1 (เดือน 1-2): Kubernetes RBAC**
+- [ ] Namespace per team
+- [ ] Role/RoleBinding per namespace
+- [ ] NetworkPolicy (deny cross-namespace)
+- [ ] ResourceQuota (CPU/Memory/Storage limits)
+
+**Phase 2 (เดือน 3-4): Database/Queue RBAC**
+- [ ] Auto-generate credentials per app
+- [ ] Store credentials ใน Vault
+- [ ] Inject credentials เป็น environment variables
+- [ ] จำกัดสิทธิ์ per app
+
+**Phase 3 (เดือน 5-6): Portal RBAC**
+- [ ] Setup Backstage (optional)
+- [ ] ติดตั้ง RBAC plugin
+- [ ] กำหนด roles + permissions
+- [ ] Audit logs
+
+**ผลลัพธ์:**
+- ✅ Zero Config + Secure
+- ✅ Namespace isolation
+- ✅ Credentials per app
+- ✅ Audit ได้ทุกขั้นตอน
+
+</div>
+
+---
+
 <!-- _class: lead -->
 
 # 🤝 ขั้นตอนสาม
