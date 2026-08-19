@@ -712,6 +712,152 @@ $ git push origin main
 
 ---
 
+# 📨 Message Queue: Zero Config Provisioning
+
+<div class="highlight">
+
+**ปัญหาเดิม:**
+- ❌ ต้องเปิด ticket ขอ IT สร้าง RabbitMQ/Kafka cluster (รอ 1-3 วัน)
+- ❌ ต้อง config connection string เอง
+- ❌ ไม่มี queue สำหรับ preview environments
+- ❌ แพง! CloudAMQP $25-200/mo
+
+**วิธีแก้:**
+- ✅ **Shared cluster** — IT ดูแล cluster เดียว ใช้ร่วมกันทุก app
+- ✅ **Auto vhost/topic** — สร้าง resources อัตโนมัติผ่าน Operator
+- ✅ **Auto connection strings** — Inject เป็น environment variables อัตโนมัติ
+- ✅ **Queue branching** — สร้าง queue branch ทุก MR (เหมือน Neon)
+- ✅ **Free** — Self-hosted ถูกกว่า CloudAMQP/Upstash มาก
+
+</div>
+
+---
+
+# 🎯 Message Queue Options: เลือกตามความต้องการ
+
+<div class="columns">
+<div>
+
+**1. RabbitMQ (แนะนำ — Task Queues)**
+- ✅ RabbitMQ Cluster Operator (Production-ready)
+- ✅ AMQP protocol, routing ยืดหยุ่น
+- ✅ เหมาะกับ background jobs, microservices
+- ✅ IT คุ้นเคย
+
+**เหมาะสำหรับ:**
+- Task queues (background jobs)
+- Microservices communication
+- RPC patterns
+
+</div>
+<div>
+
+**2. Kafka (High Throughput)**
+- ✅ Strimzi Operator (CNCF incubating)
+- ✅ Event streaming, high throughput
+- ✅ เหมาะกับ real-time data, log aggregation
+- ✅ Retention policies
+
+**เหมาะสำหรับ:**
+- Event streaming
+- Log aggregation
+- Real-time analytics
+
+**3. Redis (Lightweight)**
+- ✅ Redis Operator
+- ✅ Pub/Sub, caching
+- ✅ เหมาะกับ notifications, simple queues
+
+</div>
+</div>
+
+---
+
+# 🚀 ตัวอย่าง: สร้าง Queue แบบ Zero Config
+
+**GitLab CI/CD Template:**
+```yaml
+# .gitlab-ci.yml
+include:
+  - project: 'platform/queue-templates'
+    file: '/rabbitmq.yml'  # หรือ '/kafka.yml', '/redis.yml'
+
+variables:
+  QUEUE_TYPE: rabbitmq
+  VHOST_NAME: myapp
+```
+
+**ผลลัพธ์:**
+```bash
+$ git push origin main
+# GitLab CI/CD สร้าง vhost + queues อัตโนมัติ
+# Inject connection string เป็น environment variable
+🎉 Queue ready: myapp-rabbitmq.apps.company.com
+🔑 $RABBITMQ_URL injected
+```
+
+**ไม่ต้อง:**
+- ❌ เปิด ticket ขอ IT
+- ❌ Config connection string เอง
+- ❌ สร้าง queues manual
+- ❌ รอ 1-3 วัน
+
+---
+
+# 💰 Cost Comparison: Message Queue
+
+| Feature | CloudAMQP | Upstash Kafka | วิธีของเรา |
+|---------|-----------|---------------|-----------|
+| **Cost** | $25-200/mo | $10-100/mo | **Free** (self-hosted) |
+| **RabbitMQ** | ✅ | ❌ | ✅ |
+| **Kafka** | ❌ | ✅ | ✅ |
+| **Redis** | ❌ | ✅ | ✅ |
+| **Auto provisioning** | ✅ | ✅ | ✅ |
+| **Data control** | ❌ (cloud) | ❌ (cloud) | ✅ **ในองค์กร** |
+| **Compliance** | ⚠️ | ⚠️ | ✅ **PDPA, ISO** |
+
+**สรุป:**
+- ✅ ถูกกว่า (Free vs $25-200/mo)
+- ✅ มีทุก options (RabbitMQ, Kafka, Redis)
+- ✅ Data control + Compliance
+- ✅ ฟีเจอร์ครบ (branching, auto-provisioning)
+
+---
+
+# 📋 Message Queue Implementation Plan
+
+<div class="compact">
+
+**Phase 1: RabbitMQ (เดือน 1-2)**
+- [ ] Deploy RabbitMQ Cluster Operator
+- [ ] Setup shared RabbitMQ cluster (3 nodes)
+- [ ] สร้าง GitLab CI/CD template
+- [ ] Auto vhost provisioning
+- [ ] Auto connection string injection
+
+**Phase 2: Kafka (เดือน 3-4)**
+- [ ] Deploy Strimzi Kafka Operator
+- [ ] Setup shared Kafka cluster (3 brokers)
+- [ ] สร้าง GitLab CI/CD template
+- [ ] Auto topic provisioning
+- [ ] Auto connection string injection
+
+**Phase 3: Advanced Features (เดือน 5-6)**
+- [ ] Queue monitoring (Prometheus + Grafana)
+- [ ] Auto-scaling based on queue depth
+- [ ] Dead letter queue automation
+- [ ] Documentation + examples
+
+**ผลลัพธ์:**
+- ✅ Zero config queue provisioning
+- ✅ RabbitMQ + Kafka + Redis
+- ✅ Queue branching (เหมือน Neon)
+- ✅ Auto-provisioning, monitoring
+
+</div>
+
+---
+
 <!-- _class: lead -->
 
 # 🤝 ขั้นตอนสาม
