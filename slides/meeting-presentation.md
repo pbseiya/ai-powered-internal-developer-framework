@@ -9,8 +9,8 @@ style: |
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #f0f4ff 0%, #e8f0ff 50%, #f5f0ff 100%);
     color: #1a202c;
-    font-size: 26px;
-    padding: 60px 70px;
+    font-size: 22px;
+    padding: 40px 50px;
   }
   section.lead {
     text-align: center;
@@ -50,14 +50,14 @@ style: |
     color: #5b21b6;
     border-bottom: 3px solid #7c3aed;
     padding-bottom: 0.2em;
-    margin-bottom: 0.4em;
-    font-size: 1.5em;
+    margin-bottom: 0.3em;
+    font-size: 1.3em;
     font-weight: 700;
   }
   h2 {
     color: #7c3aed;
-    font-size: 1.2em;
-    margin-bottom: 0.3em;
+    font-size: 1.1em;
+    margin-bottom: 0.25em;
     font-weight: 600;
   }
   h3 {
@@ -66,12 +66,12 @@ style: |
     color: #6d28d9;
   }
   p, ul, ol {
-    margin-bottom: 0.3em;
-    line-height: 1.35;
+    margin-bottom: 0.2em;
+    line-height: 1.25;
     color: #2d3748;
   }
   li {
-    margin-bottom: 0.1em;
+    margin-bottom: 0.03em;
     color: #2d3748;
   }
   code {
@@ -85,10 +85,10 @@ style: |
     background: #f7f7fb;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
-    padding: 0.6em;
-    font-size: 0.75em;
-    line-height: 1.3;
-    margin-bottom: 0.3em;
+    padding: 0.3em;
+    font-size: 0.65em;
+    line-height: 1.15;
+    margin-bottom: 0.2em;
     color: #1a202c;
   }
   pre code {
@@ -100,7 +100,7 @@ style: |
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
-    font-size: 0.85em;
+    font-size: 0.75em;
     border-collapse: separate;
     border-spacing: 0;
     box-shadow: 0 1px 3px rgba(0,0,0,0.08);
@@ -108,7 +108,7 @@ style: |
   th {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
     color: #ffffff !important;
-    padding: 0.5em 0.7em;
+    padding: 0.3em 0.4em;
     font-weight: 600;
     text-align: left;
     border: none;
@@ -116,7 +116,7 @@ style: |
   td {
     color: #2d3748 !important;
     background: #ffffff !important;
-    padding: 0.4em 0.7em;
+    padding: 0.25em 0.4em;
     border-top: 1px solid #e2e8f0;
     border-bottom: 1px solid #e2e8f0;
   }
@@ -126,11 +126,11 @@ style: |
   .columns {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.8em;
+    gap: 0.6em;
   }
   .highlight {
     background: rgba(124, 58, 237, 0.08);
-    padding: 0.4em 0.6em;
+    padding: 0.25em 0.4em;
     border-radius: 5px;
     border-left: 4px solid #7c3aed;
     color: #2d3748;
@@ -265,29 +265,10 @@ Server เดิม + Kubernetes Platform
 
 ```yaml
 # Priority Classes (จากสูงไปต่ำ)
-apiVersion: scheduling.k8s.io/v1
-kind: PriorityClass
-metadata:
-  name: factory-critical
-value: 1000000  # สูงสุด
----
-apiVersion: scheduling.k8s.io/v1
-kind: PriorityClass
-metadata:
-  name: backoffice-important
-value: 500000
----
-apiVersion: scheduling.k8s.io/v1
-kind: PriorityClass
-metadata:
-  name: user-app-standard
-value: 100000
----
-apiVersion: scheduling.k8s.io/v1
-kind: PriorityClass
-metadata:
-  name: dev-test-low
-value: 10000  # ต่ำสุด
+factory-critical:    value: 1000000  # โรงงาน
+backoffice-important: value: 500000  # Back Office
+user-app-standard:   value: 100000   # User Apps
+dev-test-low:        value: 10000    # Dev/Test
 ```
 
 **การทำงาน:**
@@ -295,6 +276,17 @@ value: 10000  # ต่ำสุด
 - ✅ โรงงานไม่กระทบ → ได้ resource เสมอ
 - ✅ Back Office ได้ resource รองลงมา
 - ✅ Dev/Test ใช้ resource ว่าง (ไม่เสียเปล่า)
+
+
+---
+
+# 📊 Resource Allocation: ตัวอย่างการใช้งาน (2/2)
+
+**ผลลัพธ์:**
+- ✅ โรงงาน (Priority 1M) → ได้ resource เสมอ
+- ✅ Back Office (Priority 500K) → ได้ resource รองลงมา
+- ✅ Dev/Test (Priority 10K) → ใช้ resource ว่าง
+- ✅ ไม่มี downtime สำหรับ production
 
 ---
 
@@ -351,8 +343,7 @@ value: 10000  # ต่ำสุด
 </div>
 
 ---
-
-# 📈 ถ้า Resource ไม่เพียงพอ จะจัดการอย่างไร?
+# 📈 ถ้า Resource ไม่เพียงพอ จะจัดการอย่างไร? (1/2)
 
 <div class="columns">
 <div>
@@ -367,40 +358,25 @@ value: 10000  # ต่ำสุด
 **2. Auto-scaling**
 - HPA: เพิ่ม pods เมื่อ traffic สูง
 - VPA: ปรับขนาด pods อัตโนมัติ
-- ลด resource ตอน traffic ต่ำ
 
 **3. Priority Management**
 - Dev/Test scale down ตอน resource เต็ม
 - โรงงาน/Back Office ได้ resource เสมอ
 
-**ผลลัพธ์:** รองรับเพิ่มได้อีก 30-50% โดยไม่ต้องเพิ่ม hardware
+**ผลลัพธ์:** รองรับเพิ่มได้อีก 30-50%
 
 </div>
-<div>
+</div>
+
+---
+# 📈 ถ้า Resource ไม่เพียงพอ จะจัดการอย่างไร? (2/2)
 
 **Phase 2: Scale Out (เดือน 4-6)**
+- ✅ เพิ่ม Worker Nodes (k8s กระจาย workload อัตโนมัติ)
+- ✅ ใช้ Cloud Bursting (AWS/GCP ชั่วคราว)
+- ✅ Edge Computing (ย้าย workload ไป edge)
 
-**ถ้ายังเพียงพอ:**
-
-**1. เพิ่ม Worker Nodes**
-- เพิ่ม server เข้า cluster
-- k8s กระจาย workload อัตโนมัติ
-- ไม่ต้อง downtime
-
-**2. ใช้ Cloud Bursting**
-- ใช้ cloud server ชั่วคราว (AWS/GCP)
-- เฉพาะตอน traffic สูงมาก
-- ประหยัดกว่าซื้อ server ใหม่
-
-**3. Edge Computing**
-- ย้าย workload บางส่วนไป edge
-- ลด load ที่ central cluster
-- เหมาะกับ IoT/factory
-
-**ผลลัพธ์:** Scale ได้ไม่จำกัด โดยไม่กระทบ service
-
-</div>
-</div>
+**ผลลัพธ์:** Scale ได้ไม่จำกัด
 
 ---
 
@@ -458,7 +434,20 @@ value: 10000  # ต่ำสุด
 
 ---
 
-# 🎯 Proxy Metrics: วัดอ้อมแต่เห็นผล
+# 📈 DORA Metrics: มาตรฐานอุตสาหกรรม (2/2)
+
+**วิธีแปลงเป็นตัวเงิน:**
+
+| Metric | Calculation | Benefit/ปี |
+|--------|-------------|-----------|
+| **Deployment Frequency** | 508 apps × ฿50K | ฿25.4M |
+| **Lead Time** | 10 features × ฿96.7K | ฿0.97M |
+| **MTTR** | 10 incidents × ฿375K | ฿3.75M |
+| **รวม** | | **฿30.12M** |
+
+---
+
+# 🎯 Proxy Metrics: วัดอ้อมแต่เห็นผล (1/2)
 
 <div class="columns">
 <div class="compact">
@@ -480,6 +469,10 @@ value: 10000  # ต่ำสุด
 </div>
 <div class="compact">
 
+---
+
+# 🎯 Proxy Metrics: วัดอ้อมแต่เห็นผล (2/2)
+
 **3. Downtime Reduction (ลด downtime)**
 
 **ตัวอย่าง:** Machine downtime
@@ -492,9 +485,6 @@ value: 10000  # ต่ำสุด
 - Error Reduction: ฿2,700,000/ปี
 - Downtime Reduction: ฿6,000,000/ปี
 - **รวม: ฿8,899,680/ปี**
-
-</div>
-</div>
 
 ---
 
@@ -525,6 +515,18 @@ value: 10000  # ต่ำสุด
 
 ---
 
+# 💰 สรุป ROI: รวม Benefit ทั้งหมด (2/2)
+
+**ROI Calculation:**
+- Returns: ฿80.27M/ปี
+- Investment: ฿1.9M/ปี
+- **ROI = 4,118%**
+- **Payback Period = 1.5 เดือน**
+
+**หมายเหตุ:** ตัวเลขเป็น conservative estimate — ตัวจริงอาจสูงกว่านี้
+
+---
+
 # 🎯 Qualitative Metrics (1/2): วัดสิ่งที่วัดเป็นตัวเงินยาก
 
 <div class="columns">
@@ -539,28 +541,31 @@ value: 10000  # ต่ำสุด
 
 **Target:** NPS > 50
 
-**แปลงเป็นตัวเงิน:**
+---
+
+# 🎯 Qualitative Metrics (2/2): แปลงเป็นตัวเงิน
+
+**1. Developer Satisfaction (NPS)**
 - NPS เพิ่ม 20 → 60 = happiness เพิ่ม 40%
 - Research: happiness เพิ่ม 10% → productivity เพิ่ม 5%
 - 20 developers × ฿50,000 × 20% × 12 = **฿2,400,000/ปี**
 
-</div>
-<div class="compact">
-
 **2. Innovation Index**
-
-**วิธีวัด:**
-- จำนวนไอเดียที่กลายเป็น app
-- จำนวน apps ที่สร้างโดย non-IT
-
-**Target:** เพิ่ม 5x ใน 1 ปี
-
-**แปลงเป็นตัวเงิน:**
 - ก่อน: 2 ideas/ปี → หลัง: 10 ideas/ปี
 - เพิ่ม: 8 apps × ฿100,000 = **฿800,000/ปี**
 
-</div>
-</div>
+**รวม Qualitative Benefits: ฿3,200,000/ปี**
+
+---
+
+# 🎯 Qualitative Metrics (สรุป)
+
+**4. Knowledge Retention**
+- ก่อน: Train ใหม่ ฿50,000/คน × 5 คน = ฿250,000
+- หลัง: Train ใหม่ ฿10,000/คน (อ่าน wiki)
+- **ประหยัด: ฿200,000/ปี**
+
+**รวม Qualitative Benefits: ฿37.35M/ปี**
 
 ---
 
@@ -586,21 +591,24 @@ value: 10000  # ต่ำสุด
 </div>
 <div class="compact">
 
+---
+
+# 🎯 Qualitative Metrics (สรุป 1/2)
+
 **4. Knowledge Retention**
-
-**วิธีวัด:**
-- จำนวน wiki pages ที่ AI สร้าง
-- จำนวนครั้งที่ wiki ถูกใช้งาน
-
-**Target:** 100% apps มี wiki
-
-**แปลงเป็นตัวเงิน:**
-- ก่อน: Train ใหม่ ฿50,000/คน × 5 คน = ฿250,000
-- หลัง: Train ใหม่ ฿10,000/คน (อ่าน wiki)
+- ก่อน: Train ใหม่ ฿250,000
+- หลัง: Train ใหม่ ฿50,000 (อ่าน wiki)
 - **ประหยัด: ฿200,000/ปี**
 
-</div>
-</div>
+---
+# 🎯 Qualitative Metrics (สรุป)
+
+**รวม Qualitative Benefits:**
+- Developer Satisfaction: ฿2.4M/ปี
+- Innovation Index: ฿0.8M/ปี
+- Compliance Score: ฿37.15M/ปี
+- Knowledge Retention: ฿0.2M/ปี
+- **รวม: ฿40.55M/ปี**
 
 ---
 
@@ -640,6 +648,17 @@ Payback Period = 1.5 เดือน (ไม่ใช่ 1.5 ปี!)
 **หมายเหตุ:** ตัวเลขข้างบนเป็น "conservative estimate" — ตัวจริงอาจสูงกว่านี้
 
 </div>
+
+---
+
+# 🏆 Success Stories (สรุป)
+
+**Story 4: Innovation App (IoT Dashboard)**
+- ก่อน: ไม่มี real-time monitoring
+- หลัง: Real-time dashboard, 5 นาที/รอบ
+- **Benefit:** ฿3.5M/ปี
+
+**รวม Benefit จาก 4 Stories: ฿16.7M/ปี**
 
 ---
 
@@ -686,48 +705,37 @@ Payback Period = 1.5 เดือน (ไม่ใช่ 1.5 ปี!)
 
 ---
 
-# 🏆 Success Stories (2/2): ตัวอย่างที่วัดได้
-
-<div class="columns">
-<div class="compact">
-
-**Story 3: AI-Powered Knowledge Base**
-
-**ก่อน:**
-- ความรู้กระจายตามตัวบุคคล
-- คนออก = ความรู้หาย
-- Train ใหม่: ฿50,000/คน
-
-**หลัง:**
-- AI สร้าง wiki อัตโนมัติ
-- ความรู้คงอยู่ถาวร
-- Train ใหม่: ฿10,000/คน (อ่าน wiki)
-
-**Benefit:** ฿200,000/ปี
-
-</div>
-<div class="compact">
+# 🏆 Success Stories (สรุป)
 
 **Story 4: Innovation App (IoT Dashboard)**
-
-**ก่อน:**
-- ไม่มี real-time monitoring
-- ต้องเดินตรวจเครื่องจักร
-- ใช้เวลา: 2 ชม./รอบ
-
-**หลัง:**
-- Real-time dashboard
-- Monitoring จากที่ใดก็ได้
-- ใช้เวลา: 5 นาที/รอบ
-
-**Benefit:**
-- ประหยัดเวลา: ฿500,000/ปี
-- ลด downtime: ฿3,000,000/ปี
+- ก่อน: ไม่มี real-time monitoring
+- หลัง: Real-time dashboard, 5 นาที/รอบ
+- **Benefit:** ฿3.5M/ปี
 
 **รวม Benefit จาก 4 Stories: ฿16.7M/ปี**
 
+---
+
+# 🏆 Success Stories (2/2): ตัวอย่างที่วัดได้ (1/2)
+
+<div class="compact">
+
+**Story 3: AI-Powered Knowledge Base**
+- ก่อน: ความรู้กระจายตามตัวบุคคล
+- หลัง: AI สร้าง wiki อัตโนมัติ
+- **Benefit:** ฿200,000/ปี
+
 </div>
-</div>
+
+---
+# 🏆 Success Stories (สรุป)
+
+**Story 4: Innovation App (IoT Dashboard)**
+- ก่อน: ต้องเดินตรวจเครื่องจักร 2 ชม./รอบ
+- หลัง: Real-time dashboard 5 นาที/รอบ
+- **Benefit:** ฿3.5M/ปี
+
+**รวม Benefit จาก 4 Stories: ฿16.7M/ปี**
 
 ---
 
@@ -1012,17 +1020,15 @@ Payback Period = 1.5 เดือน (ไม่ใช่ 1.5 ปี!)
 
 <div class="highlight">
 
-**ปัญหาเดิม:**
+**ปัญหา:**
 - ❌ ต้องเปิด ticket ขอ IT สร้าง database (รอ 1-3 วัน)
 - ❌ ต้อง config connection string เอง
 - ❌ ไม่มี database สำหรับ preview environments
-- ❌ ไม่มี vector DB สำหรับ AI/RAG
 
 **วิธีแก้:**
 - ✅ **Self-service database** — สร้างได้ทันทีผ่าน GitLab CI/CD
 - ✅ **Auto connection strings** — Inject เป็น environment variables อัตโนมัติ
 - ✅ **Database branching** — สร้าง database branch ทุก MR (เหมือน Neon)
-- ✅ **Vector DB built-in** — pgvector พร้อมใช้สำหรับ AI
 
 </div>
 
@@ -1073,30 +1079,21 @@ Payback Period = 1.5 เดือน (ไม่ใช่ 1.5 ปี!)
 
 **GitLab CI/CD Template:**
 ```yaml
-# .gitlab-ci.yml
 include:
   - project: 'platform/db-templates'
-    file: '/sqlserver.yml'  # หรือ '/postgresql.yml'
-
+    file: '/sqlserver.yml'
 variables:
   DB_NAME: myapp
-  DB_SIZE: 10Gi
-  DB_TYPE: sqlserver  # หรือ postgresql
 ```
 
 **ผลลัพธ์:**
 ```bash
 $ git push origin main
-# GitLab CI/CD สร้าง database อัตโนมัติ
-# Inject connection string เป็น environment variable
 🎉 Database ready: myapp-db.apps.company.com
-🔑 Connection string injected to: $DATABASE_URL
+🔑 $DATABASE_URL injected
 ```
 
-**ไม่ต้อง:**
-- ❌ เปิด ticket ขอ IT
-- ❌ Config connection string เอง
-- ❌ รอ 1-3 วัน
+**ไม่ต้อง:** ❌ เปิด ticket ❌ Config เอง ❌ รอ 1-3 วัน
 
 ---
 
@@ -1206,6 +1203,15 @@ variables:
 
 ---
 
+# 📋 Database Implementation Plan (2/2)
+
+**Phase 3: Database Lifecycle (เดือน 4-6)**
+- [ ] Auto migration (Atlas/Flyway)
+- [ ] Auto cleanup เมื่อ MR ปิด
+- [ ] Read replicas สำหรับ scaling
+
+---
+
 # 💰 Cost Comparison: Database
 
 | Feature | NeonDB | Supabase | วิธีของเรา |
@@ -1226,38 +1232,21 @@ variables:
 - ✅ ฟีเจอร์ครบ (branching, vector DB, backup)
 
 ---
-
 # 🎯 Developer Experience: เปรียบเทียบ
 
-**NeonDB Experience:**
+**NeonDB:**
 ```bash
 $ git push origin main
-# Neon สร้าง database branch อัตโนมัติ
-# Inject DATABASE_URL
 🎉 Database: pr-123.neon.tech
-🔑 $DATABASE_URL injected
 ```
 
-**Supabase Experience:**
-```bash
-$ stripe projects provision supabase
-# สร้าง project พร้อม database, auth, storage
-🎉 Project ready
-🔑 Credentials in .env
-```
-
-**วิธีของเรา (ใกล้เคียงกัน):**
+**วิธีของเรา:**
 ```bash
 $ git push origin main
-# GitLab CI/CD สร้าง database อัตโนมัติ
-# Inject connection string
 🎉 Database: myapp-db.apps.company.com
-🔑 $DATABASE_URL injected
 ```
 
 **✅ UX ใกล้ใกล้เคียง Neon/Supabase!**
-**✅ แต่ใช้ SQL Server ได้ (IT standard)**
-**✅ Data อยู่ในองค์กร (Compliance)**
 
 ---
 
@@ -1385,57 +1374,52 @@ $ git push origin main
 
 ---
 
-# 💰 Cost Comparison: Message Queue
+# 📋 Message Queue Implementation Plan (2/2)
 
-| Feature | CloudAMQP | Upstash Kafka | วิธีของเรา |
-|---------|-----------|---------------|-----------|
-| **Cost** | $25-200/mo | $10-100/mo | **Free** (self-hosted) |
-| **RabbitMQ** | ✅ | ❌ | ✅ |
-| **Kafka** | ❌ | ✅ | ✅ |
-| **Redis** | ❌ | ✅ | ✅ |
-| **Auto provisioning** | ✅ | ✅ | ✅ |
-| **Data control** | ❌ (cloud) | ❌ (cloud) | ✅ **ในองค์กร** |
-| **Compliance** | ⚠️ | ⚠️ | ✅ **PDPA, ISO** |
-
-**สรุป:**
-- ✅ ถูกกว่า (Free vs $25-200/mo)
-- ✅ มีทุก options (RabbitMQ, Kafka, Redis)
-- ✅ Data control + Compliance
-- ✅ ฟีเจอร์ครบ (branching, auto-provisioning)
-
----
-
-# 📋 Message Queue Implementation Plan
-
-<div class="compact">
-
-**Phase 1: RabbitMQ (เดือน 1-2)**
-- [ ] Deploy RabbitMQ Cluster Operator
-- [ ] Setup shared RabbitMQ cluster (3 nodes)
-- [ ] สร้าง GitLab CI/CD template
-- [ ] Auto vhost provisioning
-- [ ] Auto connection string injection
-
-**Phase 2: Kafka (เดือน 3-4)**
-- [ ] Deploy Strimzi Kafka Operator
-- [ ] Setup shared Kafka cluster (3 brokers)
-- [ ] สร้าง GitLab CI/CD template
-- [ ] Auto topic provisioning
-- [ ] Auto connection string injection
-
-**Phase 3: Advanced Features (เดือน 5-6)**
-- [ ] Queue monitoring (Prometheus + Grafana)
-- [ ] Auto-scaling based on queue depth
-- [ ] Dead letter queue automation
-- [ ] Documentation + examples
+**Phase 3: Queue Lifecycle (เดือน 5-6)**
+- [ ] Auto cleanup เมื่อ MR ปิด
+- [ ] Monitoring + alerting
+- [ ] Documentation + templates
 
 **ผลลัพธ์:**
 - ✅ Zero config queue provisioning
-- ✅ RabbitMQ + Kafka + Redis
-- ✅ Queue branching (เหมือน Neon)
-- ✅ Auto-provisioning, monitoring
+- ✅ RabbitMQ (IT standard) + Kafka + Redis
+- ✅ Auto backup + cleanup
 
-</div>
+---
+
+# 💰 Cost Comparison: Message Queue
+
+| Feature | CloudAMQP | Upstash | วิธีของเรา |
+|---------|-----------|---------|-----------|
+| **Cost** | $25-200/mo | $10-100/mo | **Free** |
+| **RabbitMQ** | ✅ | ❌ | ✅ |
+| **Kafka** | ❌ | ✅ | ✅ |
+| **Data control** | ❌ cloud | ❌ cloud | ✅ ในองค์กร |
+| **Compliance** | ⚠️ | ⚠️ | ✅ PDPA, ISO |
+
+**สรุป:** ✅ ถูกกว่า ✅ มีทุก options ✅ Data control + Compliance
+
+---
+
+# 💰 Cost Comparison: Message Queue (1/2)
+
+| Feature | CloudAMQP | Upstash | วิธีของเรา |
+|---------|-----------|---------|-----------|
+| **Cost** | $25-200/mo | $10-100/mo | **Free** |
+| **RabbitMQ** | ✅ | ❌ | ✅ |
+| **Kafka** | ❌ | ✅ | ✅ |
+
+---
+
+# 💰 Cost Comparison: Message Queue (2/2)
+
+| Feature | CloudAMQP | Upstash | วิธีของเรา |
+|---------|-----------|---------|-----------|
+| **Data control** | ❌ cloud | ❌ cloud | ✅ ในองค์กร |
+| **Compliance** | ⚠️ | ⚠️ | ✅ PDPA, ISO |
+
+**สรุป:** ✅ ถูกกว่า ✅ มีทุก options ✅ Data control + Compliance
 
 ---
 
@@ -1567,43 +1551,38 @@ Developer กด "Create Database"
 
 | Role | เห็นอะไร | ทำอะไรได้ |
 |------|---------|----------|
-| **Developer** | App ของตัวเองเท่านั้น | Deploy dev/staging, สร้าง DB/Queue |
-| **Tech Lead** | App ในทีมตัวเอง | Approve production deploy |
+| **Developer** | App ของตัวเอง | Deploy dev/staging |
+| **Tech Lead** | App ในทีม | Approve production |
 | **SA** | ทุก app | Review architecture |
-| **Infra** | ทุก app + infrastructure | Manage clusters, operators |
+| **Infra** | ทุก app + infra | Manage clusters |
 | **Admin** | ทุกอย่าง | ทุกอย่าง |
 
-**สิ่งที่ Backstage RBAC ทำได้:**
-- ✅ ควบคุมการเข้าถึง plugins, routes, data
-- ✅ กำหนด roles + permissions ผ่าน UI (no-code)
-- ✅ Conditional permissions (dev ทำได้เฉพาะ dev environment)
-- ✅ Audit logs (ใครทำอะไร เมื่อไหร่)
 
 </div>
 
 ---
 
+# 📋 Security Implementation Plan (2/2)
+
+**Phase 3 (เดือน 5-6): Portal RBAC**
+- [ ] Setup Backstage (optional)
+- [ ] ติดตั้ง RBAC plugin
+- [ ] กำหนด roles + permissions
+
+**ผลลัพธ์:**
+- ✅ Zero Config + Secure
+- ✅ Namespace isolation
+- ✅ Credentials per app
+
+---
 # 🔄 ตัวอย่าง: Workflow ที่สมบูรณ์
 
 ```
-Developer (team-a) → เข้า Portal
-                    ↓
-              เห็นเฉพาะ App ของ team-a
-                    ↓
-              กด "Create Database"
-                    ↓
-              Portal ตรวจสอบ:
-              - User เป็น developer ของ team-a? ✅
-              - team-a มี quota เหลือไหม? ✅
-              - Database name ซ้ำไหม? ✅
-                    ↓
-              Portal เรียก GitLab CI/CD:
-              - สร้าง database ใน namespace team-a
-              - สร้าง credentials ใน Vault
-              - Inject connection string
-                    ↓
-              Developer ได้ database ทันที
-              (ทีมอื่น access ไม่ได้)
+Developer → เข้า Portal → กด "Create Database"
+         → Portal ตรวจสอบ → เรียก GitLab CI/CD
+         → สร้าง database + credentials ใน Vault
+         → Inject connection string
+         → Developer ได้ database ทันที
 ```
 
 **✅ Zero Config + Secure + Audit ได้!**
@@ -1677,9 +1656,7 @@ Developer (team-a) → เข้า Portal
 - Storage: 500 GB SSD/node
 - **รวม:** 24 cores, 96 GB RAM
 
-**รวม Cluster:**
-- **36 cores, 120 GB RAM**
-- **1.6 TB Storage**
+**รวม: 36 cores, 120 GB RAM, 1.6 TB Storage**
 
 </div>
 <div>
@@ -1694,13 +1671,24 @@ Developer (team-a) → เข้า Portal
 | **Message Queue** | 1 core | 2 GB | 10 GB |
 | **AI/ML Service** | 2 cores | 4 GB | 5 GB |
 
-**รองรับได้:**
-- 10-20 apps (mixed workloads)
-- 50-100 pods
-- 1,000-2,000 requests/second
 
 </div>
 </div>
+
+---
+
+# 🔄 Kubernetes Auto-Scaling (2/2)
+
+**2. Cluster Autoscaler** - เพิ่ม nodes เมื่อ pods รอ queue > 10 วินาที
+```yaml
+--scale-down-delay-after-add=10m
+--scale-down-unneeded-time=10m
+```
+
+**ผลลัพธ์:**
+- ✅ Auto-scale pods ตาม workload
+- ✅ Auto-scale nodes ตาม pods
+- ✅ ลด cost ตอน traffic ต่ำ
 
 ---
 
@@ -1716,15 +1704,7 @@ Developer (team-a) → เข้า Portal
 - ง่าย ไม่ต้องเพิ่ม node ใหม่
 - เหมาะกับ stateful workloads (database)
 
-**ข้อดี:**
-- ✅ ง่าย เร็ว
-- ✅ ไม่ต้อง re-architect
-- ✅ เหมาะกับ database
 
-**ข้อเสีย:**
-- ❌ มีขีดจำกัด (hardware limit)
-- ❌ Downtime ตอน upgrade
-- ❌ แพงกว่า (diminishing returns)
 
 </div>
 <div>
@@ -1736,15 +1716,7 @@ Developer (team-a) → เข้า Portal
 - k8s กระจาย workload อัตโนมัติ
 - เหมาะกับ stateless workloads (web apps)
 
-**ข้อดี:**
-- ✅ ไม่จำกัด (เพิ่มได้เรื่อยๆ)
-- ✅ No downtime
-- ✅ ถูกกว่า (commodity hardware)
 
-**ข้อเสีย:**
-- ⚠️ ต้อง design สำหรับ distributed
-- ⚠️ ซับซ้อนกว่า
-- ⚠️ ต้องการ load balancer
 
 **คำแนะนำ:** ใช้ **Scale Out** เป็นหลัก + **Scale Up** สำหรับ database
 
@@ -1761,37 +1733,17 @@ Developer (team-a) → เข้า Portal
 
 **1. Horizontal Pod Autoscaler (HPA)** - เพิ่ม pods เมื่อ CPU > 70%
 ```yaml
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: web-app-hpa
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: web-app
-  minReplicas: 2
-  maxReplicas: 10
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 70
+# HPA: เพิ่ม pods เมื่อ CPU > 70%
+minReplicas: 2, maxReplicas: 10
+targetCPUUtilization: 70%
 ```
 
 **2. Cluster Autoscaler** - เพิ่ม nodes เมื่อ pods รอ queue > 10 วินาที
 ```yaml
---scale-down-delay-after-add=10m
---scale-down-unneeded-time=10m
+# Cluster Autoscaler
+scale-down-delay: 10m
 ```
 
-**ผลลัพธ์:**
-- ✅ Auto-scale pods ตาม workload
-- ✅ Auto-scale nodes ตาม pods
-- ✅ ลด cost ตอน traffic ต่ำ
-- ✅ รองรับ traffic spike อัตโนมัติ
 
 </div>
 
@@ -1803,39 +1755,20 @@ spec:
 <div class="compact">
 
 **Option 1: ซื้อเครื่อง (On-Premise)**
-
-**Hardware (3 เครื่อง): ฿1,300,000**
-- Dell PowerEdge R750 × 3: ฿1,050,000
-- Network Switch (10GbE): ฿150,000
-- UPS (10kVA): ฿100,000
-
-**Colocation: ฿58,600/เดือน**
-- Full Rack (42U): ฿42,000
-- Internet (1Gbps): ฿15,000
-- IP Address (16 IPs): ฿1,600
-
-**รวม 3 ปี: ฿3,409,600**
-**เฉลี่ย: ฿94,711/เดือน**
+- Hardware (3 เครื่อง): ฿1,050,000
+- Colocation: ฿58,600/เดือน
+- **รวม 3 ปี: ฿3,409,600**
+- **เฉลี่ย: ฿94,711/เดือน**
 
 </div>
 <div class="compact">
 
-**Option 2: เช่าเครื่อง (Cloud/Colocation)**
+**Option 2: เช่าเครื่อง (Cloud)**
+- Dedicated Server: ฿143,000/เดือน
+- Colocation: ฿58,600/เดือน
+- **รวมรายเดือน: ฿201,600/เดือน**
 
-**Dedicated Server: ฿143,000/เดือน**
-- Dell R750 × 3: ฿135,000
-- Network Switch: ฿5,000
-- UPS: ฿3,000
-
-**Colocation: ฿58,600/เดือน**
-- Full Rack + Internet + IPs
-
-**รวมรายเดือน: ฿201,600/เดือน**
-
-**เปรียบเทียบ:**
-- ซื้อ: ฿94,711/เดือน (3-year avg)
-- เช่า: ฿201,600/เดือน
-- **ซื้อถูกกว่า 53%!**
+**เปรียบเทียบ:** ซื้อถูกกว่า 53%!
 
 </div>
 </div>
@@ -1847,23 +1780,15 @@ spec:
 <div class="highlight">
 
 **Phase 1 (เดือน 1-6): เช่าเครื่อง**
-- ✅ ไม่ต้องลงทุนสูง
-- ✅ ทดสอบระบบก่อน
-- ✅ ปรับขนาดได้ตามต้องการ
+- ✅ ไม่ต้องลงทุนสูง ทดสอบระบบก่อน
 - **Cost: ~฿200,000/เดือน**
 
 **Phase 2 (เดือน 7+): ซื้อเครื่อง**
 - ✅ ประหยัดกว่าในระยะยาว
-- ✅ ควบคุม hardware เอง
-- ✅ Depreciation 3-5 ปี
 - **Cost: ~฿95,000/เดือน (3-year avg)**
 
-**ROI:**
-- ปีที่ 1: เช่า = ฿2.4M
-- ปีที่ 2-3: ซื้อ = ฿1.1M/ปี
-- **ประหยัด: ฿1.3M ใน 3 ปี**
-
-**คำแนะนำ:** เริ่มเช่า 6 เดือน → ถ้า workload คงที่ → ซื้อเครื่อง
+**ROI:** ปีที่ 1 เช่า = ฿2.4M → ปีที่ 2-3 ซื้อ = ฿1.1M/ปี
+**ประหยัด: ฿1.3M ใน 3 ปี**
 
 </div>
 
@@ -2240,82 +2165,53 @@ $ kubectl apply -f ingress.yaml
 🎉 Your app is live at: http://my-app.apps.company.com
 ```
 
-**ไม่ต้อง:**
-- ❌ เปิด ticket ขอ DNS
-- ❌ รอ IT สร้าง record
-- ❌ รู้ว่า app รันบน port ไหน
-- ❌ ตั้งค่า firewall
 
-**แค่ push code → ได้ URL ทันที!**
 
 ---
-
 # 🆚 เปรียบเทียบกับ Vercel/Cloudflare
 
 <div class="columns">
 <div>
 
-**Vercel/Cloudflare ทำอย่างไร?**
+**Vercel/Cloudflare**
 - ✅ Push code → ได้ URL อัตโนมัติ
 - ✅ Preview ทุก PR อัตโนมัติ
-- ✅ Zero config (ไม่ต้องเขียน YAML)
-- ✅ Global CDN
-
-**ข้อเสีย:**
-- ❌ ข้อมูลอยู่บน cloud ของเขา
+- ❌ ข้อมูลอยู่บน cloud
 - ❌ ค่าใช้จ่าย $20/seat/month
-- ❌ ควบคุมไม่ได้ (PDPA, ISO)
 
 </div>
 <div>
 
 **วิธีของเรา (k8s + GitLab)**
-- ✅ Push code → ได้ URL อัตโนมัติ (ผ่าน GitLab CI/CD)
+- ✅ Push code → ได้ URL อัตโนมัติ
 - ✅ Preview ทุก MR อัตโนมัติ
-- ✅ Zero config (แค่ include template)
 - ✅ ข้อมูลอยู่ในองค์กร
-
-**ข้อดี:**
-- ✅ **Free** (ประหยัด $20/seat/month)
-- ✅ **Data control** (PDPA, ISO)
-- ✅ **Compliance** (audit ได้)
+- ✅ **Free** (ประหยัด $240/year/คน)
 
 </div>
 </div>
 
 ---
-
 # 🎯 UX ต้องใกล้เคียง Vercel
 
-**Vercel experience:**
+**Vercel:**
 ```bash
 $ git push origin main
-# 30 วินาที...
 🎉 https://my-app.vercel.app
 ```
 
-**วิธีของเรา (ทำให้ใกล้เคียง):**
+**วิธีของเรา:**
 ```bash
 $ git push origin main
-# GitLab CI/CD ทำทุกอย่างอัตโนมัติ
-# 1-2 นาที...
 🎉 https://my-app.apps.company.com
 ```
 
 **สิ่งที่ User ต้องทำ:**
 ```yaml
-# .gitlab-ci.yml (แค่ include template)
 include:
   - project: 'platform/ci-templates'
     file: '/k8s-deploy.yml'
-
-variables:
-  APP_NAME: my-app
-  APP_PORT: 3000
 ```
-
-**✅ ไม่ต้องเขียน Ingress YAML เอง!**
-**✅ ไม่ต้องรัน kubectl เอง!**
 
 ---
 
@@ -2361,6 +2257,15 @@ deploy:preview:
 
 ---
 
+# 🚀 3 Phases Implementation (2/2)
+
+**Phase 3: Polish (Month 5-6)**
+- [ ] UX, Documentation, Training
+
+**Timeline:** 6 เดือน | **Team:** 2 people
+
+---
+
 # 💰 ทำไม User จะยอมเปลี่ยน?
 
 <div class="columns">
@@ -2401,15 +2306,14 @@ deploy:preview:
 </div>
 
 ---
-
 # 🛠️ ใช้ Open Source ทั้งหมด
 
 | Phase | สิ่งที่ต้องทำ | Open Source Tool | Cost |
 |-------|--------------|------------------|------|
 | **Phase 1: UX** | Zero config deployment | **GitLab CE** | Free |
-| **Phase 2: Incentive** | Documentation | ไม่ต้องใช้ tool | Free |
-| **Phase 3: Migration** | Templates + guides | ไม่ต้องใช้ tool | Free |
-| **Phase 3 (Advanced)** | Self-Service Portal | **Backstage** (Spotify) | Free |
+| **Phase 2: Incentive** | Documentation | - | Free |
+| **Phase 3: Migration** | Templates + guides | - | Free |
+| **Phase 3 (Advanced)** | Self-Service Portal | **Backstage** | Free |
 
 **รวม Cost: $0 (Free ทั้งหมด!)**
 

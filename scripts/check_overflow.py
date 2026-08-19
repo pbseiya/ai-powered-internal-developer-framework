@@ -74,6 +74,10 @@ def check_overflow(filepath):
     overflow_slides = []
     
     for i, slide in enumerate(slides, 1):
+        # ข้าม YAML frontmatter (chunk แรกที่ marp: true)
+        if i == 1 and 'marp: true' in slide:
+            continue
+        
         # นับบรรทัดเนื้อหา
         line_count = count_content_lines(slide)
         
