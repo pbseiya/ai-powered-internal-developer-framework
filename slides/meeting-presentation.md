@@ -461,65 +461,37 @@ value: 10000  # ต่ำสุด
 # 🎯 Proxy Metrics: วัดอ้อมแต่เห็นผล
 
 <div class="columns">
-<div>
+<div class="compact">
 
 **1. Time Savings (ประหยัดเวลา)**
 
-**ตัวอย่าง:**
-```
-ก่อน: ช่างเทคนิคแจ้งปัญหาผ่าน Excel
-- ใช้เวลา: 30 นาที/ครั้ง
-- จำนวน: 10 ครั้ง/วัน
-- รวม: 5 ชม./วัน = 25 ชม./สัปดาห์
-
-หลัง: แอปมือถือแจ้งปัญหาอัตโนมัติ
-- ใช้เวลา: 5 นาที/ครั้ง
-- จำนวน: 10 ครั้ง/วัน
-- รวม: 50 นาที/วัน = 4.2 ชม./สัปดาห์
-
-ประหยัด: 20.8 ชม./สัปดาห์
-คิดเป็นเงิน: 20.8 × ฿200/ชม. = ฿4,160/สัปดาห์
-= ฿16,640/เดือน = ฿199,680/ปี
-```
-
-**นี่คือ "Time Savings" ที่วัดเป็นตัวเงินได้!**
-
-</div>
-<div>
+**ตัวอย่าง:** ช่างเทคนิคแจ้งปัญหา
+- ก่อน: 30 นาที/ครั้ง × 10 ครั้ง/วัน = 5 ชม./วัน
+- หลัง: 5 นาที/ครั้ง × 10 ครั้ง/วัน = 50 นาที/วัน
+- **ประหยัด:** 20.8 ชม./สัปดาห์ × ฿200/ชม. = **฿199,680/ปี**
 
 **2. Error Reduction (ลดข้อผิดพลาด)**
 
-**ตัวอย่าง:**
-```
-ก่อน: กรอกข้อมูล manual
-- Error rate: 5%
-- ค่าแก้ไข: ฿5,000/error
-- จำนวน: 1,000 transactions/เดือน
-- Errors: 50 errors/เดือน
-- ค่าเสียหาย: ฿250,000/เดือน
+**ตัวอย่าง:** กรอกข้อมูล manual
+- ก่อน: Error rate 5% × 1,000 transactions = 50 errors/เดือน
+- หลัง: Error rate 0.5% = 5 errors/เดือน
+- **ประหยัด:** 45 errors × ฿5,000 × 12 = **฿2,700,000/ปี**
 
-หลัง: แอปอัตโนมัติ
-- Error rate: 0.5%
-- Errors: 5 errors/เดือน
-- ค่าเสียหาย: ฿25,000/เดือน
-
-ประหยัด: ฿225,000/เดือน = ฿2,700,000/ปี
-```
-
-**นี่คือ "Error Reduction" ที่วัดเป็นตัวเงินได้!**
+</div>
+<div class="compact">
 
 **3. Downtime Reduction (ลด downtime)**
 
-**ตัวอย่าง:**
-```
-ก่อน: Machine downtime 10 ชม./เดือน
-ค่าเสียหาย: ฿100,000/ชม.
-รวม: ฿1,000,000/เดือน
+**ตัวอย่าง:** Machine downtime
+- ก่อน: 10 ชม./เดือน × ฿100,000/ชม. = ฿1,000,000/เดือน
+- หลัง: Predictive maintenance ลด 50% = 5 ชม./เดือน
+- **ประหยัด:** ฿500,000/เดือน × 12 = **฿6,000,000/ปี**
 
-หลัง: Predictive maintenance ลด downtime 50%
-Downtime: 5 ชม./เดือน
-ประหยัด: ฿500,000/เดือน = ฿6,000,000/ปี
-```
+**สรุป Proxy Metrics:**
+- Time Savings: ฿199,680/ปี
+- Error Reduction: ฿2,700,000/ปี
+- Downtime Reduction: ฿6,000,000/ปี
+- **รวม: ฿8,899,680/ปี**
 
 </div>
 </div>
@@ -541,52 +513,22 @@ Downtime: 5 ชม./เดือน
 
 **วิธีแปลงเป็นตัวเงิน:**
 
-**1. Deployment Frequency**
-```
-ก่อน: Deploy 1 app/เดือน → 12 apps/ปี
-หลัง: Deploy 10 apps/สัปดาห์ → 520 apps/ปี
-เพิ่ม: 508 apps/ปี
+**1. Deployment Frequency:** 508 apps/ปี × ฿50,000 = **฿25.4M/ปี**
 
-ถ้าแต่ละ app สร้าง value ฿50,000/ปี
-Total value: 508 × ฿50,000 = ฿25,400,000/ปี
-```
+**2. Lead Time:** 10 features × ฿96,667 = **฿0.97M/ปี**
 
-**2. Lead Time**
-```
-ก่อน: ไอเดีย → app ใช้งานได้ = 30 วัน
-หลัง: ไอเดีย → app ใช้งานได้ = 1 วัน
-เร็วขึ้น: 29 วัน
+**3. MTTR:** 10 incidents × ฿375,000 = **฿3.75M/ปี**
 
-ถ้า feature ใหม่สร้างรายได้ ฿100,000/เดือน
-เร่งรายได้ได้: (29/30) × ฿100,000 = ฿96,667/feature
-ถ้ามี 10 features/ปี = ฿966,670/ปี
-```
-
-**3. MTTR (Mean Time To Recovery)**
-```
-ก่อน: Downtime 4 ชม./incident
-หลัง: Downtime 15 นาที/incident
-ลด: 3.75 ชม./incident
-
-ถ้า downtime ค่าเสียหาย ฿100,000/ชม.
-ประหยัด: 3.75 × ฿100,000 = ฿375,000/incident
-ถ้ามี 10 incidents/ปี = ฿3,750,000/ปี
-```
-
-**รวม Benefit จาก DORA Metrics:**
-- Deployment Frequency: ฿25.4M/ปี
-- Lead Time: ฿0.97M/ปี
-- MTTR: ฿3.75M/ปี
-- **รวม: ฿30.12M/ปี**
+**รวม Benefit จาก DORA Metrics: ฿30.12M/ปี**
 
 </div>
 
 ---
 
-# 🎯 Qualitative Metrics: วัดสิ่งที่วัดเป็นตัวเงินยาก
+# 🎯 Qualitative Metrics (1/2): วัดสิ่งที่วัดเป็นตัวเงินยาก
 
 <div class="columns">
-<div>
+<div class="compact">
 
 **1. Developer Satisfaction (NPS)**
 
@@ -598,38 +540,34 @@ Total value: 508 × ฿50,000 = ฿25,400,000/ปี
 **Target:** NPS > 50
 
 **แปลงเป็นตัวเงิน:**
-```
-ถ้า NPS เพิ่มจาก 20 → 60
-= Developer happiness เพิ่ม 40%
+- NPS เพิ่ม 20 → 60 = happiness เพิ่ม 40%
+- Research: happiness เพิ่ม 10% → productivity เพิ่ม 5%
+- 20 developers × ฿50,000 × 20% × 12 = **฿2,400,000/ปี**
 
-Research แสดงว่า:
-Developer happiness เพิ่ม 10% → productivity เพิ่ม 5%
-
-ถ้ามี 20 developers × ฿50,000/เดือน
-Productivity เพิ่ม 20%:
-20 × ฿50,000 × 20% × 12 = ฿2,400,000/ปี
-```
+</div>
+<div class="compact">
 
 **2. Innovation Index**
 
 **วิธีวัด:**
 - จำนวนไอเดียที่กลายเป็น app
-- จำนวน apps ที่สร้างโดย non-IT (factory, back office)
+- จำนวน apps ที่สร้างโดย non-IT
 
 **Target:** เพิ่ม 5x ใน 1 ปี
 
 **แปลงเป็นตัวเงิน:**
-```
-ก่อน: 2 ideas/ปี → 2 apps
-หลัง: 10 ideas/ปี → 10 apps
-เพิ่ม: 8 apps
-
-ถ้าแต่ละ app สร้าง value ฿100,000/ปี
-Total: 8 × ฿100,000 = ฿800,000/ปี
-```
+- ก่อน: 2 ideas/ปี → หลัง: 10 ideas/ปี
+- เพิ่ม: 8 apps × ฿100,000 = **฿800,000/ปี**
 
 </div>
-<div>
+</div>
+
+---
+
+# 🎯 Qualitative Metrics (2/2): วัดสิ่งที่วัดเป็นตัวเงินยาก
+
+<div class="columns">
+<div class="compact">
 
 **3. Compliance Score**
 
@@ -640,20 +578,13 @@ Total: 8 × ฿100,000 = ฿800,000/ปี
 **Target:** 30% → 95%
 
 **แปลงเป็นตัวเงิน:**
-```
-ก่อน: 30% compliance
-- 70% apps ไม่ผ่าน audit
-- ค่าปรับ PDPA: ฿5,000,000 (ถ้าถูก audit)
-- ค่าแก้ไข: ฿500,000/app
-
-หลัง: 95% compliance
-- 5% apps ไม่ผ่าน audit
 - ความเสี่ยงลดลง 93%
+- ค่าปรับ PDPA: ฿5M × 93% = ฿4.65M
+- ค่าแก้ไข: ฿500K × 65 apps = ฿32.5M
+- **รวม: ฿37,150,000 (risk avoidance)**
 
-ประหยัดค่าปรับ: ฿5,000,000 × 93% = ฿4,650,000
-ประหยัดค่าแก้ไข: ฿500,000 × (70-5) = ฿32,500,000
-รวม: ฿37,150,000 (risk avoidance)
-```
+</div>
+<div class="compact">
 
 **4. Knowledge Retention**
 
@@ -664,16 +595,9 @@ Total: 8 × ฿100,000 = ฿800,000/ปี
 **Target:** 100% apps มี wiki
 
 **แปลงเป็นตัวเงิน:**
-```
-ก่อน: คนออก = ความรู้หาย
-- Train ใหม่: ฿50,000/คน
-- ถ้ามีคนออก 5 คน/ปี = ฿250,000/ปี
-
-หลัง: AI สร้าง wiki อัตโนมัติ
-- Knowledge คงอยู่
-- Train ใหม่: ฿10,000/คน (อ่าน wiki)
-- ประหยัด: ฿200,000/ปี
-```
+- ก่อน: Train ใหม่ ฿50,000/คน × 5 คน = ฿250,000
+- หลัง: Train ใหม่ ฿10,000/คน (อ่าน wiki)
+- **ประหยัด: ฿200,000/ปี**
 
 </div>
 </div>
@@ -719,10 +643,10 @@ Payback Period = 1.5 เดือน (ไม่ใช่ 1.5 ปี!)
 
 ---
 
-# 🏆 Success Stories: ตัวอย่างที่วัดได้
+# 🏆 Success Stories (1/2): ตัวอย่างที่วัดได้
 
 <div class="columns">
-<div>
+<div class="compact">
 
 **Story 1: Factory Predictive Maintenance**
 
@@ -737,6 +661,9 @@ Payback Period = 1.5 เดือน (ไม่ใช่ 1.5 ปี!)
 - Predictive maintenance
 
 **Benefit:** ฿6,000,000/ปี
+
+</div>
+<div class="compact">
 
 **Story 2: Back Office Approval System**
 
@@ -755,7 +682,14 @@ Payback Period = 1.5 เดือน (ไม่ใช่ 1.5 ปี!)
 - ลดความเสี่ยง: ฿5,000,000/ปี
 
 </div>
-<div>
+</div>
+
+---
+
+# 🏆 Success Stories (2/2): ตัวอย่างที่วัดได้
+
+<div class="columns">
+<div class="compact">
 
 **Story 3: AI-Powered Knowledge Base**
 
@@ -770,6 +704,9 @@ Payback Period = 1.5 เดือน (ไม่ใช่ 1.5 ปี!)
 - Train ใหม่: ฿10,000/คน (อ่าน wiki)
 
 **Benefit:** ฿200,000/ปี
+
+</div>
+<div class="compact">
 
 **Story 4: Innovation App (IoT Dashboard)**
 
@@ -787,12 +724,7 @@ Payback Period = 1.5 เดือน (ไม่ใช่ 1.5 ปี!)
 - ประหยัดเวลา: ฿500,000/ปี
 - ลด downtime: ฿3,000,000/ปี
 
-**รวม Benefit จาก 4 Stories:**
-- Predictive Maintenance: ฿6M
-- Approval System: ฿7M
-- Knowledge Base: ฿0.2M
-- IoT Dashboard: ฿3.5M
-- **รวม: ฿16.7M/ปี**
+**รวม Benefit จาก 4 Stories: ฿16.7M/ปี**
 
 </div>
 </div>
@@ -1211,46 +1143,27 @@ cleanup-db-branch:
 
 # 🧠 Vector DB สำหรับ AI/RAG
 
-**ปัญหา:**
-- AI applications ต้องการ vector storage สำหรับ embeddings
-- ต้องรัน vector DB แยก (Pinecone, Weaviate, Milvus)
-- ซับซ้อนและแพง
+**ปัญหา:** AI applications ต้องการ vector storage สำหรับ embeddings → ต้องรัน vector DB แยก (แพง!)
 
-**วิธีแก้: pgvector**
-- ✅ Vector search ใน PostgreSQL เดียวกัน
-- ✅ ไม่ต้องรัน vector DB แยก
-- ✅ Compatible กับ OpenAI embeddings
-- ✅ Free, open-source
+**วิธีแก้: pgvector** - Vector search ใน PostgreSQL เดียวกัน (Free, open-source)
 
-**ตัวอย่าง:**
+**ตัวอย่าง SQL:**
 ```sql
--- Enable pgvector
 CREATE EXTENSION vector;
-
--- Create table with vector column
 CREATE TABLE documents (
   id bigserial PRIMARY KEY,
   content text,
-  embedding vector(1536)  -- OpenAI embedding dimension
+  embedding vector(1536)  -- OpenAI dimension
 );
-
--- Create index for fast search
-CREATE INDEX ON documents 
-USING ivfflat (embedding vector_cosine_ops);
-
--- Query similar documents
-SELECT content, embedding <=> $1 AS distance
-FROM documents
-ORDER BY distance LIMIT 10;
+CREATE INDEX ON documents USING ivfflat (embedding vector_cosine_ops);
+SELECT content, embedding <=> $1 AS distance FROM documents ORDER BY distance LIMIT 10;
 ```
 
 **Zero Config:**
 ```yaml
-# .gitlab-ci.yml
 include:
   - project: 'platform/db-templates'
     file: '/postgresql-pgvector.yml'
-
 variables:
   DB_NAME: myapp-ai
   ENABLE_PGVECTOR: "true"
@@ -1846,7 +1759,7 @@ Developer (team-a) → เข้า Portal
 
 <div class="compact">
 
-**1. Horizontal Pod Autoscaler (HPA)**
+**1. Horizontal Pod Autoscaler (HPA)** - เพิ่ม pods เมื่อ CPU > 70%
 ```yaml
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -1868,16 +1781,11 @@ spec:
         averageUtilization: 70
 ```
 
-**ทำงาน:** เพิ่ม pods เมื่อ CPU > 70%
-
-**2. Cluster Autoscaler**
+**2. Cluster Autoscaler** - เพิ่ม nodes เมื่อ pods รอ queue > 10 วินาที
 ```yaml
-# เพิ่ม nodes เมื่อ pods รอ queue นาน
 --scale-down-delay-after-add=10m
 --scale-down-unneeded-time=10m
 ```
-
-**ทำงาน:** เพิ่ม nodes เมื่อ pods รอ queue > 10 วินาที
 
 **ผลลัพธ์:**
 - ✅ Auto-scale pods ตาม workload
@@ -1892,65 +1800,37 @@ spec:
 # 💰 Cost Estimation: ซื้อ vs เช่า
 
 <div class="columns">
-<div>
+<div class="compact">
 
 **Option 1: ซื้อเครื่อง (On-Premise)**
 
-**Hardware (3-year amortization):**
+**Hardware (3 เครื่อง): ฿1,300,000**
+- Dell PowerEdge R750 × 3: ฿1,050,000
+- Network Switch (10GbE): ฿150,000
+- UPS (10kVA): ฿100,000
 
-| Item | Qty | Price/Unit | Total |
-|------|-----|------------|-------|
-| **Dell PowerEdge R750** | 3 | ฿350,000 | ฿1,050,000 |
-| (48 cores, 128 GB RAM, 2TB SSD) | | | |
-| **Network Switch** | 1 | ฿150,000 | ฿150,000 |
-| (10GbE, 24 ports) | | | |
-| **UPS** | 1 | ฿100,000 | ฿100,000 |
-| (10kVA, online) | | | |
-| **รวม Hardware** | | | **฿1,300,000** |
+**Colocation: ฿58,600/เดือน**
+- Full Rack (42U): ฿42,000
+- Internet (1Gbps): ฿15,000
+- IP Address (16 IPs): ฿1,600
 
-**Colocation (Data Center):**
-
-| Item | Monthly | Yearly |
-|------|---------|--------|
-| Full Rack (42U) | ฿42,000 | ฿504,000 |
-| Internet (1Gbps) | ฿15,000 | ฿180,000 |
-| IP Address (16 IPs) | ฿1,600 | ฿19,200 |
-| **รวม Colocation** | **฿58,600** | **฿703,200** |
-
-**รวม 3 ปี:**
-- Hardware: ฿1,300,000
-- Colocation: ฿2,109,600
-- **รวม: ฿3,409,600**
-- **เฉลี่ย: ฿94,711/เดือน**
+**รวม 3 ปี: ฿3,409,600**
+**เฉลี่ย: ฿94,711/เดือน**
 
 </div>
-<div>
+<div class="compact">
 
 **Option 2: เช่าเครื่อง (Cloud/Colocation)**
 
-**Dedicated Server (3 nodes):**
+**Dedicated Server: ฿143,000/เดือน**
+- Dell R750 × 3: ฿135,000
+- Network Switch: ฿5,000
+- UPS: ฿3,000
 
-| Item | Monthly/Node | Total Monthly |
-|------|--------------|---------------|
-| **Dell R750** | ฿45,000 | ฿135,000 |
-| (48 cores, 128 GB RAM, 2TB SSD) | | |
-| **Network Switch** | ฿5,000 | ฿5,000 |
-| **UPS** | ฿3,000 | ฿3,000 |
-| **รวม** | **฿53,000** | **฿143,000** |
+**Colocation: ฿58,600/เดือน**
+- Full Rack + Internet + IPs
 
-**Colocation:**
-
-| Item | Monthly |
-|------|---------|
-| Full Rack (42U) | ฿42,000 |
-| Internet (1Gbps) | ฿15,000 |
-| IP Address (16 IPs) | ฿1,600 |
-| **รวม Colocation** | **฿58,600** |
-
-**รวมรายเดือน:**
-- Server rental: ฿143,000
-- Colocation: ฿58,600
-- **รวม: ฿201,600/เดือน**
+**รวมรายเดือน: ฿201,600/เดือน**
 
 **เปรียบเทียบ:**
 - ซื้อ: ฿94,711/เดือน (3-year avg)
@@ -1992,7 +1872,7 @@ spec:
 # 📊 Resource Monitoring & Optimization
 
 <div class="columns">
-<div>
+<div class="compact">
 
 **Monitoring Stack:**
 
@@ -2017,7 +1897,7 @@ kubectl top pods
 - แสดง wasted resources
 
 </div>
-<div>
+<div class="compact">
 
 **Optimization Strategies:**
 
@@ -2039,14 +1919,6 @@ spec:
     limits.cpu: "20"
     limits.memory: 40Gi
 ```
-
-**3. Pod Disruption Budgets**
-- รองรับ maintenance โดยไม่ downtime
-- ควบคุม minimum availability
-
-**4. Spot/Preemptible Instances**
-- ใช้ cloud spot instances (ถูกกว่า 70%)
-- เหมาะกับ batch jobs, dev environments
 
 **ผลลัพธ์:**
 - ✅ ลด waste 20-30%
@@ -2465,8 +2337,7 @@ MR #124 → https://my-app-mr-124.apps.company.com
 ```yaml
 deploy:preview:
   script:
-    - |
-      kubectl apply -f - <<EOF
+    - kubectl apply -f - <<EOF
       apiVersion: networking.k8s.io/v1
       kind: Ingress
       metadata:
@@ -2481,10 +2352,8 @@ deploy:preview:
               backend:
                 service:
                   name: $CI_PROJECT_NAME
-                  port:
-                    number: 80
+                  port: 80
       EOF
-    - echo "🎉 Preview: https://$CI_PROJECT_NAME-mr-$CI_MERGE_REQUEST_IID.apps.company.com"
 ```
 
 **✅ Preview อัตโนมัติทุก MR!**
