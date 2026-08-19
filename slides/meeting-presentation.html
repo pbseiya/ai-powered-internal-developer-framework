@@ -1282,7 +1282,7 @@ section::after {
 <h1 id="%F0%9F%91%A5-%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B9%8C%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%8A%E0%B8%B8%E0%B8%A1-22"><img class="emoji" draggable="false" alt="👥" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f465.svg" data-marp-twemoji=""/> องค์ประชุม (2/2)</h1>
 <p><strong>Infra&amp;Security</strong></p>
 <ul>
-<li>k3s, GitLab, ArgoCD</li>
+<li>k8s, GitLab, ArgoCD</li>
 <li>Vault, RBAC, monitoring</li>
 <li>Network policies</li>
 </ul>
@@ -3465,7 +3465,7 @@ section::after {
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code><img class="emoji" draggable="false" alt="💡" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f4a1.svg" data-marp-twemoji=""/> ไอเดีย → <img class="emoji" draggable="false" alt="💻" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f4bb.svg" data-marp-twemoji=""/> Code → <img class="emoji" draggable="false" alt="🤖" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f916.svg" data-marp-twemoji=""/> Auto Test → <img class="emoji" draggable="false" alt="📚" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f4da.svg" data-marp-twemoji=""/> AI Docs → <img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Review → <img class="emoji" draggable="false" alt="🚀" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f680.svg" data-marp-twemoji=""/> Deploy
                 ↓           ↓              ↓          ↓          ↓
               GitLab    GitLab CI/CD     LLM Wiki   SA/SME    ArgoCD
-              Push        (Pipeline)    (Qwen AI)   Review    → k3s
+              Push        (Pipeline)    (Qwen AI)   Review    → k8s
 </code></pre>
 <footer>August 2026</footer>
 </section>
@@ -3773,7 +3773,7 @@ section::after {
 <p><strong>1. Self-Service Deployment</strong></p>
 <ul>
 <li>ใช้ง่ายเหมือน Vercel</li>
-<li>Deploy บน k3s ขององค์กร</li>
+<li>Deploy บน k8s ขององค์กร</li>
 </ul>
 <p><strong>2. AI-Powered Documentation</strong></p>
 <ul>
@@ -4429,11 +4429,11 @@ section::after {
 <tr>
 <td>CD</td>
 <td><strong>ArgoCD</strong></td>
-<td>GitOps deploy to k3s</td>
+<td>GitOps deploy to k8s</td>
 </tr>
 <tr>
 <td>Orchestration</td>
-<td><strong>k3s</strong></td>
+<td><strong>k8s</strong></td>
 <td>Lightweight Kubernetes</td>
 </tr>
 </tbody>
@@ -5407,7 +5407,7 @@ section::after {
 <tr>
 <td><strong>Infra</strong></td>
 <td>Infrastructure</td>
-<td>k3s, monitoring, security</td>
+<td>k8s, monitoring, security</td>
 </tr>
 </tbody>
 </table>
@@ -10139,7 +10139,7 @@ section::after {
 <p><strong>สิ่งที่ IT ทำ (ครั้งเดียว):</strong></p>
 <ol>
 <li>สร้าง DNS: <code>*.apps.company.com</code></li>
-<li>ชี้ไป IP ของ k3s cluster</li>
+<li>ชี้ไป IP ของ k8s cluster</li>
 <li>ตั้งค่า TLS certificate (Let's Encrypt)</li>
 </ol>
 <p><strong>เสร็จแล้ว!</strong> ไม่ต้องทำอะไรอีก</p>
@@ -10795,7 +10795,7 @@ section::after {
 </ul>
 </div>
 <div>
-<p><strong>วิธีของเรา (k3s + GitLab)</strong></p>
+<p><strong>วิธีของเรา (k8s + GitLab)</strong></p>
 <ul>
 <li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Push code → ได้ URL อัตโนมัติ (ผ่าน GitLab CI/CD)</li>
 <li><img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Preview ทุก MR อัตโนมัติ</li>
@@ -11126,7 +11126,7 @@ section::after {
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-yaml"><span class="hljs-comment"># .gitlab-ci.yml (แค่ include template)</span>
 <span class="hljs-attr">include:</span>
   <span class="hljs-bullet">-</span> <span class="hljs-attr">project:</span> <span class="hljs-string">&#x27;platform/ci-templates&#x27;</span>
-    <span class="hljs-attr">file:</span> <span class="hljs-string">&#x27;/k3s-deploy.yml&#x27;</span>
+    <span class="hljs-attr">file:</span> <span class="hljs-string">&#x27;/k8s-deploy.yml&#x27;</span>
 
 <span class="hljs-attr">variables:</span>
   <span class="hljs-attr">APP_NAME:</span> <span class="hljs-string">my-app</span>
@@ -12781,12 +12781,12 @@ section::after {
 <div class="compact">
 <p><strong>Infrastructure Setup:</strong></p>
 <ul>
-<li>[ ] Setup k3s cluster (3 nodes)</li>
+<li>[ ] Setup k8s cluster (3 nodes)</li>
 <li>[ ] Setup GitLab + GitLab Runner</li>
 <li>[ ] Deploy ArgoCD, Harbor, Traefik</li>
 <li>[ ] Deploy LiteLLM + Redis + Langfuse</li>
 </ul>
-<p><strong>Deliverables:</strong> k3s cluster + GitLab repo + LLM gateway</p>
+<p><strong>Deliverables:</strong> k8s cluster + GitLab repo + LLM gateway</p>
 </div>
 <footer>August 2026</footer>
 </section>
@@ -14342,7 +14342,7 @@ section::after {
 <div class="compact">
 <p><strong>Infra&amp;Security:</strong></p>
 <ul>
-<li>Setup k3s cluster (test)</li>
+<li>Setup k8s cluster (test)</li>
 <li>Deploy LiteLLM + Redis</li>
 </ul>
 <p><strong>AI-Eng:</strong></p>
@@ -15313,7 +15313,7 @@ section::after {
 <div class="compact">
 <p><strong>Tech Stack:</strong></p>
 <ul>
-<li>k3s + ArgoCD + GitLab</li>
+<li>k8s + ArgoCD + GitLab</li>
 <li>LiteLLM + Alibaba Qwen</li>
 </ul>
 <p><strong>Timeline:</strong> 6 months, 3 phases</p>

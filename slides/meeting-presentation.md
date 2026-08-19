@@ -216,7 +216,7 @@ style: |
 # 👥 องค์ประชุม (2/2)
 
 **Infra&Security**
-- k3s, GitLab, ArgoCD
+- k8s, GitLab, ArgoCD
 - Vault, RBAC, monitoring
 - Network policies
 
@@ -320,7 +320,7 @@ style: |
 💡 ไอเดีย → 💻 Code → 🤖 Auto Test → 📚 AI Docs → ✅ Review → 🚀 Deploy
                 ↓           ↓              ↓          ↓          ↓
               GitLab    GitLab CI/CD     LLM Wiki   SA/SME    ArgoCD
-              Push        (Pipeline)    (Qwen AI)   Review    → k3s
+              Push        (Pipeline)    (Qwen AI)   Review    → k8s
 ```
 
 ---
@@ -332,7 +332,7 @@ style: |
 
 **1. Self-Service Deployment**
 - ใช้ง่ายเหมือน Vercel
-- Deploy บน k3s ขององค์กร
+- Deploy บน k8s ขององค์กร
 
 **2. AI-Powered Documentation**
 - LLM สร้าง wiki อัตโนมัติ
@@ -380,8 +380,8 @@ style: |
 | Layer | Tool | หน้าที่ |
 |-------|------|---------|
 | Git + CI | **GitLab** | Git server + CI/CD pipeline |
-| CD | **ArgoCD** | GitOps deploy to k3s |
-| Orchestration | **k3s** | Lightweight Kubernetes |
+| CD | **ArgoCD** | GitOps deploy to k8s |
+| Orchestration | **k8s** | Lightweight Kubernetes |
 
 ---
 
@@ -414,7 +414,7 @@ style: |
 | **SA** | Architecture | ออกแบบระบบ, wiki schema |
 | **AI-Eng** | LLM Integration | Auto-docs, MCP, AI review |
 | **Dev** | Implementation | Workflow, templates |
-| **Infra** | Infrastructure | k3s, monitoring, security |
+| **Infra** | Infrastructure | k8s, monitoring, security |
 
 **คุณแค่มีไอเดีย — ที่เหลือเราช่วย!**
 
@@ -668,7 +668,7 @@ LLM Call → LiteLLM Log → Langfuse → Analyze → Wiki Update
 
 **สิ่งที่ IT ทำ (ครั้งเดียว):**
 1. สร้าง DNS: `*.apps.company.com`
-2. ชี้ไป IP ของ k3s cluster
+2. ชี้ไป IP ของ k8s cluster
 3. ตั้งค่า TLS certificate (Let's Encrypt)
 
 **เสร็จแล้ว!** ไม่ต้องทำอะไรอีก
@@ -736,7 +736,7 @@ $ kubectl apply -f ingress.yaml
 </div>
 <div>
 
-**วิธีของเรา (k3s + GitLab)**
+**วิธีของเรา (k8s + GitLab)**
 - ✅ Push code → ได้ URL อัตโนมัติ (ผ่าน GitLab CI/CD)
 - ✅ Preview ทุก MR อัตโนมัติ
 - ✅ Zero config (แค่ include template)
@@ -774,7 +774,7 @@ $ git push origin main
 # .gitlab-ci.yml (แค่ include template)
 include:
   - project: 'platform/ci-templates'
-    file: '/k3s-deploy.yml'
+    file: '/k8s-deploy.yml'
 
 variables:
   APP_NAME: my-app
@@ -922,12 +922,12 @@ deploy:preview:
 <div class="compact">
 
 **Infrastructure Setup:**
-- [ ] Setup k3s cluster (3 nodes)
+- [ ] Setup k8s cluster (3 nodes)
 - [ ] Setup GitLab + GitLab Runner
 - [ ] Deploy ArgoCD, Harbor, Traefik
 - [ ] Deploy LiteLLM + Redis + Langfuse
 
-**Deliverables:** k3s cluster + GitLab repo + LLM gateway
+**Deliverables:** k8s cluster + GitLab repo + LLM gateway
 
 </div>
 
@@ -1010,7 +1010,7 @@ ai-review:
 <div class="compact">
 
 **Infra&Security:**
-- Setup k3s cluster (test)
+- Setup k8s cluster (test)
 - Deploy LiteLLM + Redis
 
 **AI-Eng:**
@@ -1088,7 +1088,7 @@ ai-review:
 <div class="compact">
 
 **Tech Stack:**
-- k3s + ArgoCD + GitLab
+- k8s + ArgoCD + GitLab
 - LiteLLM + Alibaba Qwen
 
 **Timeline:** 6 months, 3 phases
