@@ -1282,7 +1282,7 @@ section::after {
 <h1 id="%F0%9F%91%A5-%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B9%8C%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%8A%E0%B8%B8%E0%B8%A1-22"><img class="emoji" draggable="false" alt="👥" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f465.svg" data-marp-twemoji=""/> องค์ประชุม (2/2)</h1>
 <p><strong>Infra&amp;Security</strong></p>
 <ul>
-<li>k3s, Gitea, ArgoCD</li>
+<li>k3s, GitLab, ArgoCD</li>
 <li>Vault, RBAC, monitoring</li>
 <li>Network policies</li>
 </ul>
@@ -3464,8 +3464,8 @@ section::after {
 <h1 id="%F0%9F%8F%97%EF%B8%8F-architecture-overview"><img class="emoji" draggable="false" alt="🏗️" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f3d7.svg" data-marp-twemoji=""/> Architecture Overview</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code><img class="emoji" draggable="false" alt="💡" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f4a1.svg" data-marp-twemoji=""/> ไอเดีย → <img class="emoji" draggable="false" alt="💻" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f4bb.svg" data-marp-twemoji=""/> Code → <img class="emoji" draggable="false" alt="🤖" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f916.svg" data-marp-twemoji=""/> Auto Test → <img class="emoji" draggable="false" alt="📚" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f4da.svg" data-marp-twemoji=""/> AI Docs → <img class="emoji" draggable="false" alt="✅" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/2705.svg" data-marp-twemoji=""/> Review → <img class="emoji" draggable="false" alt="🚀" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f680.svg" data-marp-twemoji=""/> Deploy
                 ↓           ↓              ↓          ↓          ↓
-              Gitea    Gitea Actions    LLM Wiki   SA/SME    ArgoCD
-              Push       (CI)          (Qwen AI)   Review    → k3s
+              GitLab    GitLab CI/CD     LLM Wiki   SA/SME    ArgoCD
+              Push        (Pipeline)    (Qwen AI)   Review    → k3s
 </code></pre>
 <footer>August 2026</footer>
 </section>
@@ -4422,14 +4422,9 @@ section::after {
 </thead>
 <tbody>
 <tr>
-<td>Git</td>
-<td><strong>Gitea</strong></td>
-<td>Self-hosted Git server</td>
-</tr>
-<tr>
-<td>CI</td>
-<td><strong>Gitea Actions</strong></td>
-<td>Build, test, generate docs</td>
+<td>Git + CI</td>
+<td><strong>GitLab</strong></td>
+<td>Git server + CI/CD pipeline</td>
 </tr>
 <tr>
 <td>CD</td>
@@ -6027,7 +6022,7 @@ section::after {
 ;" data-marpit-pagination-total="41">
 <header>AI-Powered Internal Developer Framework</header>
 <h1 id="%F0%9F%94%84-workflow"><img class="emoji" draggable="false" alt="🔄" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f504.svg" data-marp-twemoji=""/> Workflow</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code>1. Dev push code → Gitea Actions trigger
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code>1. Dev push code → GitLab CI/CD pipeline trigger
                     ↓
 2. LLM (Qwen) อ่าน code → สร้าง wiki pages
                     ↓
@@ -9828,11 +9823,11 @@ section::after {
 <p><strong>Infrastructure Setup:</strong></p>
 <ul>
 <li>[ ] Setup k3s cluster (3 nodes)</li>
-<li>[ ] Deploy Gitea + Gitea Actions</li>
+<li>[ ] Setup GitLab + GitLab Runner</li>
 <li>[ ] Deploy ArgoCD, Harbor, Traefik</li>
 <li>[ ] Deploy LiteLLM + Redis + Langfuse</li>
 </ul>
-<p><strong>Deliverables:</strong> k3s cluster + Gitea repo + LLM gateway</p>
+<p><strong>Deliverables:</strong> k3s cluster + GitLab repo + LLM gateway</p>
 </div>
 <footer>August 2026</footer>
 </section>
@@ -11067,19 +11062,21 @@ section::after {
 }
 ;" data-marpit-pagination-total="41">
 <header>AI-Powered Internal Developer Framework</header>
-<h1 id="%F0%9F%A4%96-auto-pr--code-review"><img class="emoji" draggable="false" alt="🤖" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f916.svg" data-marp-twemoji=""/> Auto PR &amp; Code Review</h1>
-<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-yaml"><span class="hljs-attr">name:</span> <span class="hljs-string">Auto</span> <span class="hljs-string">PR</span> <span class="hljs-string">&amp;</span> <span class="hljs-string">Review</span>
-<span class="hljs-attr">on:</span>
-  <span class="hljs-attr">push:</span>
-    <span class="hljs-attr">branches:</span> [<span class="hljs-string">feature/*</span>]
-<span class="hljs-attr">jobs:</span>
-  <span class="hljs-attr">ai-review:</span>
-    <span class="hljs-attr">runs-on:</span> <span class="hljs-string">ubuntu-latest</span>
-    <span class="hljs-attr">steps:</span>
-      <span class="hljs-bullet">-</span> <span class="hljs-attr">uses:</span> <span class="hljs-string">custom/ai-review-action@v1</span>
-        <span class="hljs-attr">with:</span>
-          <span class="hljs-attr">llm_endpoint:</span> <span class="hljs-string">&quot;http://litellm:4000/v1&quot;</span>
-          <span class="hljs-attr">model:</span> <span class="hljs-string">&quot;qwen-plus&quot;</span>
+<h1 id="%F0%9F%A4%96-auto-mr--code-review"><img class="emoji" draggable="false" alt="🤖" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f916.svg" data-marp-twemoji=""/> Auto MR &amp; Code Review</h1>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-yaml"><span class="hljs-attr">stages:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">review</span>
+
+<span class="hljs-attr">ai-review:</span>
+  <span class="hljs-attr">stage:</span> <span class="hljs-string">review</span>
+  <span class="hljs-attr">image:</span> <span class="hljs-string">python:3.11</span>
+  <span class="hljs-attr">rules:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-attr">if:</span> <span class="hljs-string">&#x27;$CI_PIPELINE_SOURCE == &quot;merge_request_event&quot;&#x27;</span>
+  <span class="hljs-attr">script:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">pip</span> <span class="hljs-string">install</span> <span class="hljs-string">openai</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">python</span> <span class="hljs-string">scripts/ai-review.py</span>
+      <span class="hljs-string">--llm_endpoint</span> <span class="hljs-string">&quot;http://litellm:4000/v1&quot;</span>
+      <span class="hljs-string">--model</span> <span class="hljs-string">&quot;qwen-plus&quot;</span>
+      <span class="hljs-string">--mr_iid</span> <span class="hljs-string">$CI_MERGE_REQUEST_IID</span>
 </code></pre>
 <footer>August 2026</footer>
 </section>
@@ -11403,7 +11400,7 @@ section::after {
 </ul>
 <p><strong>Dev:</strong></p>
 <ul>
-<li>Setup Gitea + Gitea Actions</li>
+<li>Setup GitLab CI/CD pipelines</li>
 <li>สร้าง project template</li>
 </ul>
 </div>
@@ -12357,7 +12354,7 @@ section::after {
 <div class="compact">
 <p><strong>Tech Stack:</strong></p>
 <ul>
-<li>k3s + ArgoCD + Gitea</li>
+<li>k3s + ArgoCD + GitLab</li>
 <li>LiteLLM + Alibaba Qwen</li>
 </ul>
 <p><strong>Timeline:</strong> 6 months, 3 phases</p>
@@ -12981,7 +12978,7 @@ section::after {
 <li>
 <p><strong>CI/CD Comparison</strong></p>
 <ul>
-<li>Gitea Actions vs GitLab CI vs Argo Workflows</li>
+<li>GitLab CI vs GitHub Actions vs Argo Workflows</li>
 <li>ดูที่: <code>docs/backup/cicd-comparison.md</code></li>
 </ul>
 </li>

@@ -216,7 +216,7 @@ style: |
 # 👥 องค์ประชุม (2/2)
 
 **Infra&Security**
-- k3s, Gitea, ArgoCD
+- k3s, GitLab, ArgoCD
 - Vault, RBAC, monitoring
 - Network policies
 
@@ -319,8 +319,8 @@ style: |
 ```
 💡 ไอเดีย → 💻 Code → 🤖 Auto Test → 📚 AI Docs → ✅ Review → 🚀 Deploy
                 ↓           ↓              ↓          ↓          ↓
-              Gitea    Gitea Actions    LLM Wiki   SA/SME    ArgoCD
-              Push       (CI)          (Qwen AI)   Review    → k3s
+              GitLab    GitLab CI/CD     LLM Wiki   SA/SME    ArgoCD
+              Push        (Pipeline)    (Qwen AI)   Review    → k3s
 ```
 
 ---
@@ -379,8 +379,7 @@ style: |
 
 | Layer | Tool | หน้าที่ |
 |-------|------|---------|
-| Git | **Gitea** | Self-hosted Git server |
-| CI | **Gitea Actions** | Build, test, generate docs |
+| Git + CI | **GitLab** | Git server + CI/CD pipeline |
 | CD | **ArgoCD** | GitOps deploy to k3s |
 | Orchestration | **k3s** | Lightweight Kubernetes |
 
@@ -438,7 +437,7 @@ style: |
 # 🔄 Workflow
 
 ```
-1. Dev push code → Gitea Actions trigger
+1. Dev push code → GitLab CI/CD pipeline trigger
                     ↓
 2. LLM (Qwen) อ่าน code → สร้าง wiki pages
                     ↓
@@ -650,11 +649,11 @@ LLM Call → LiteLLM Log → Langfuse → Analyze → Wiki Update
 
 **Infrastructure Setup:**
 - [ ] Setup k3s cluster (3 nodes)
-- [ ] Deploy Gitea + Gitea Actions
+- [ ] Setup GitLab + GitLab Runner
 - [ ] Deploy ArgoCD, Harbor, Traefik
 - [ ] Deploy LiteLLM + Redis + Langfuse
 
-**Deliverables:** k3s cluster + Gitea repo + LLM gateway
+**Deliverables:** k3s cluster + GitLab repo + LLM gateway
 
 </div>
 
@@ -710,21 +709,23 @@ Auto-register to MCP catalog on deploy
 
 ---
 
-# 🤖 Auto PR & Code Review
+# 🤖 Auto MR & Code Review
 
 ```yaml
-name: Auto PR & Review
-on:
-  push:
-    branches: [feature/*]
-jobs:
-  ai-review:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: custom/ai-review-action@v1
-        with:
-          llm_endpoint: "http://litellm:4000/v1"
-          model: "qwen-plus"
+stages:
+  - review
+
+ai-review:
+  stage: review
+  image: python:3.11
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  script:
+    - pip install openai
+    - python scripts/ai-review.py
+      --llm_endpoint "http://litellm:4000/v1"
+      --model "qwen-plus"
+      --mr_iid $CI_MERGE_REQUEST_IID
 ```
 
 ---
@@ -750,7 +751,7 @@ jobs:
 - กำหนด KM approval criteria
 
 **Dev:**
-- Setup Gitea + Gitea Actions
+- Setup GitLab CI/CD pipelines
 - สร้าง project template
 
 </div>
@@ -813,7 +814,7 @@ jobs:
 <div class="compact">
 
 **Tech Stack:**
-- k3s + ArgoCD + Gitea
+- k3s + ArgoCD + GitLab
 - LiteLLM + Alibaba Qwen
 
 **Timeline:** 6 months, 3 phases
@@ -844,7 +845,7 @@ jobs:
    - ดูที่: `docs/backup/alibaba-token-plan.md`
 
 2. **CI/CD Comparison**
-   - Gitea Actions vs GitLab CI vs Argo Workflows
+   - GitLab CI vs GitHub Actions vs Argo Workflows
    - ดูที่: `docs/backup/cicd-comparison.md`
 
 </div>
