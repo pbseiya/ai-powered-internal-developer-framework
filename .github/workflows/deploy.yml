@@ -31,8 +31,13 @@ jobs:
 
       - name: Build HTML from Marp
         run: |
-          mkdir -p public
-          npx @marp-team/marp-cli slides/meeting-presentation.md --html --allow-local-files -o public/index.html
+          mkdir -p public/user public/it-internal
+          # Landing page
+          cp docs/index.html public/index.html
+          # User presentation
+          npx @marp-team/marp-cli slides/meeting-presentation.md --html --allow-local-files -o public/user/index.html
+          # IT internal presentation
+          npx @marp-team/marp-cli slides/it-internal-meeting.md --html --allow-local-files -o public/it-internal/index.html
 
       - name: Setup Pages
         id: pages
