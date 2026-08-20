@@ -172,7 +172,6 @@ style: |
 - ❌ ไม่มี self-service deployment
 - ❌ เปรียบเทียบกับ Vercel/Render/Cloudflare/NeonDB/Supabase ที่ zero config
 - ❌ **งบประมาณในการพัฒนาไม่เพียงพอ**
-- ❌ **มีขั้นตอนมาก ต้องผ่านหลาย approval**
 
 **Quote จาก Maintenance:**
 > "ถ้าเอาไป deploy บน Vercel เสร็จใน 5 นาที แต่ต้องรอ IT 3 วัน"
