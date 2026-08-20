@@ -168,11 +168,11 @@ style: |
 **Maintenance พัฒนา app เอง แต่มี pain points:**
 
 - ❌ ต้องส่ง code ให้ IT deploy → รอ 1-3 วัน
-- ❌ IT สั่งให้แก้ config, environment → วุ่นวาย
+- ❌ IT สั่งให้แก้ config, environment → **มีขั้นตอนมาก**
 - ❌ ไม่มี self-service deployment
 - ❌ เปรียบเทียบกับ Vercel/Render/Cloudflare/NeonDB/Supabase ที่ zero config
 - ❌ **งบประมาณในการพัฒนาไม่เพียงพอ**
-- ❌ **มีขั้นตอนมาก** ต้องผ่านหลาย approval
+- ❌ **มีขั้นตอนมาก ต้องผ่านหลาย approval**
 
 **Quote จาก Maintenance:**
 > "ถ้าเอาไป deploy บน Vercel เสร็จใน 5 นาที แต่ต้องรอ IT 3 วัน"
