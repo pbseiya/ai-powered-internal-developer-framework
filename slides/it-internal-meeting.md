@@ -171,10 +171,71 @@ style: |
 - ❌ IT สั่งให้แก้ config, environment → วุ่นวาย
 - ❌ ไม่มี self-service deployment
 - ❌ เปรียบเทียบกับ Vercel/Render/Cloudflare/NeonDB/Supabase ที่ zero config
+- ❌ **งบประมาณในการพัฒนาไม่เพียงพอ**
+- ❌ **มีขั้นตอนมาก** ต้องผ่านหลาย approval
 
 **Quote จาก Maintenance:**
 > "ถ้าเอาไป deploy บน Vercel เสร็จใน 5 นาที แต่ต้องรอ IT 3 วัน"
 
+</div>
+
+---
+
+# 🎯 Objective
+
+<div class="highlight">
+
+**เป้าหมายหลัก:**
+
+1. **ลดขั้นตอน** — จาก 10+ ขั้นตอน → 3 ขั้นตอน (Code → Push → Deploy)
+2. **ลดเวลา** — จาก 3 วัน → 15 นาที
+3. **ลดค่าใช้จ่าย** — ใช้ infrastructure ที่มีอยู่ให้คุ้มค่า
+4. **เพิ่มประสิทธิภาพ** — Maintenance พัฒนาและ deploy ได้เอง 100%
+5. **Data Privacy** — ควบคุม code และ data ภายในองค์กร
+
+**KPIs:**
+- Deployment Frequency: 10x/สัปดาห์
+- Lead Time for Changes: < 15 นาที
+- Change Failure Rate: < 5%
+
+</div>
+
+---
+
+# 💎 Benefit
+
+<div class="columns">
+<div>
+
+**สำหรับ Maintenance:**
+- ✅ Deploy เองได้ ไม่ต้องรอ IT
+- ✅ ทดสอบได้ทันที (Preview Environment)
+- ✅ สร้าง database เองได้ (Self-service)
+- ✅ AI ช่วยเขียนโค้ดและ docs
+- ✅ ลดเวลา deploy 99% (3 วัน → 15 นาที)
+
+**สำหรับ IT:**
+- ✅ ลด ticket จาก Maintenance
+- ✅ ควบคุม security และ compliance
+- ✅ Audit trail ครบถ้วน
+- ✅ ใช้ infrastructure ที่มีอยู่ให้คุ้มค่า
+
+</div>
+<div>
+
+**สำหรับองค์กร:**
+- ✅ ลด Shadow IT (80% → 0%)
+- ✅ เพิ่ม innovation speed
+- ✅ ควบคุม data privacy 100%
+- ✅ Cost avoidance: ฿2.7M ใน 3 ปี
+- ✅ ROI > 4,000%
+
+**สำหรับ Developer Experience:**
+- ✅ Zero config — ใช้ง่ายเหมือน Vercel
+- ✅ Self-service — ทำเองได้ทันที
+- ✅ AI-powered — LLM ช่วยทุกขั้นตอน
+
+</div>
 </div>
 
 ---
@@ -310,6 +371,12 @@ style: |
 4. **Dev** — Implementation, templates
 5. **Infra&Security** — Infrastructure setup, security
 
+**Key Responsibilities:**
+- Review Function Spec
+- Provide System & Module AI
+- Review Code for AI
+- Test Security
+
 **Goal:** ทำให้ Maintenance deploy เองได้ 100% (ไม่ต้องรอ IT)
 
 </div>
@@ -328,6 +395,10 @@ style: |
 - Push code ไป GitLab
 - Deploy เองผ่าน self-service platform
 - ให้ feedback, requirements
+
+**Deliverables:**
+- ส่งมอบ Requirement Spec
+- ส่งมอบ Function Spec ตาม Template Document Digital
 
 </div>
 <div>
@@ -359,6 +430,12 @@ style: |
 - ออกแบบ wiki schema (LLM auto-doc structure)
 - ออกแบบ approval workflow (code review, wiki publish)
 - ออกแบบ RBAC model (factory vs backoffice vs user apps)
+
+**Review:**
+- ✅ Review Requirement Spec
+- ✅ Review Functional Spec
+- ✅ Review Architecture Design
+- ✅ Review Workflow Design
 
 </div>
 <div>
@@ -420,6 +497,11 @@ style: |
 - สร้าง preview environment automation
 - Integrate Vault (secrets management)
 
+**Review:**
+- ✅ Review Source Code
+- ✅ Review CI/CD Pipeline
+- ✅ Review Kubernetes Manifests
+
 </div>
 <div>
 
@@ -470,19 +552,21 @@ style: |
 
 # 🔄 Team Collaboration Matrix
 
+**Collaboration Flow:**
+
 | Team | ต้องรอจาก | ต้องส่งให้ |
 |------|-----------|-----------|
-| **SA** | Requirements (Maintenance) | Architecture (AI-Eng, Dev, Infra) |
-| **AI-Eng** | Architecture (SA) | LLM integration (Dev) |
-| **Dev** | Architecture (SA), Infra (Infra) | Templates (Maintenance) |
-| **Infra** | Architecture (SA) | Infrastructure (Dev, AI-Eng) |
-| **Maintenance** | N/A | Requirements (SA) |
+| **Maintenance** | N/A | Requirement Spec + Functional Spec → SA |
+| **SA** | Requirement Spec (Maintenance) | Architecture + Review Spec → AI-Eng, Dev, Infra |
+| **AI-Eng** | Architecture (SA) | LLM integration + AI Module → Dev |
+| **Dev** | Architecture (SA), Infra (Infra) | Templates + Source Code Review → Maintenance |
+| **Infra** | Architecture (SA) | Infrastructure → Dev, AI-Eng |
 
 **Critical Path:**
-1. Maintenance → Requirements → SA
-2. SA → Architecture → Dev, AI-Eng, Infra
-3. Infra → Infrastructure → Dev, AI-Eng
-4. Dev → Templates → Maintenance
+1. **Maintenance** → เตรียม Requirement & Functional Spec → ส่งให้ SA confirm
+2. **SA** → Review Spec → ออกแบบ Architecture → ส่งให้ Dev, AI-Eng, Infra
+3. **Infra** → Setup Infrastructure → ส่งให้ Dev, AI-Eng
+4. **Dev** → สร้าง Templates → Review Source Code → ส่งให้ Maintenance
 
 ---
 
@@ -490,12 +574,14 @@ style: |
 
 | Activity | Maintenance | SA | AI-Eng | Dev | Infra |
 |----------|-------------|----|----|-----|-------|
-| Requirements | **R/A** | C | I | I | I |
+| Requirement & Functional Spec | **R/A** | C | I | I | I |
+| Review Spec | C | **R/A** | C | C | C |
 | Architecture design | C | **R/A** | C | C | C |
 | LLM integration | I | C | **R/A** | C | I |
 | k8s setup | I | C | I | C | **R/A** |
 | CI/CD templates | C | I | I | **R/A** | C |
-| Testing | **R/A** | C | C | C | C |
+| Review Source Code | C | C | C | **R/A** | I |
+| Test Security | R | C | C | C | **R/A** |
 
 **Legend:** R = Responsible, A = Accountable, C = Consulted, I = Informed
 
@@ -511,11 +597,16 @@ style: |
 - **Maintenance deploy เองได้ (ไม่ต้องรอ IT)**
 
 **Tasks by team:**
-- **Infra:** Setup k8s cluster, GitLab, ArgoCD, Vault
-- **SA:** ออกแบบ architecture, wiki schema
+- **Maintenance:** เตรียม Requirement Spec + Functional Spec
+- **SA:** Review Spec → ออกแบบ architecture, wiki schema
 - **AI-Eng:** Integrate Qwen LLM, สร้าง wiki generator prototype
 - **Dev:** สร้าง CI/CD templates, Kubernetes manifests
-- **Maintenance:** ให้ requirements, เลือก pilot apps, ทดสอบ deploy
+- **Infra:** Setup k8s cluster, GitLab, ArgoCD, Vault
+
+**Review Milestones:**
+- ✅ Review Requirement & Functional Spec (Week 1)
+- ✅ Review Architecture Design (Week 2)
+- ✅ Review Infrastructure Setup (Week 4)
 
 **Deliverables:**
 - ✅ k8s cluster running
@@ -537,11 +628,17 @@ style: |
 - **Zero config database working**
 
 **Tasks by team:**
-- **SA:** ออกแบบ approval workflow, RBAC
+- **SA:** Review Architecture → ออกแบบ approval workflow, RBAC
 - **AI-Eng:** สร้าง MCP server template, auto PR reviewer
-- **Dev:** สร้าง database provisioning, preview environments
+- **Dev:** Review Source Code → สร้าง database provisioning, preview environments
 - **Infra:** Config network policies, monitoring dashboards
 - **Maintenance:** ให้ feedback, ทดสอบระบบ
+
+**Review Milestones:**
+- ✅ Review Workflow & RBAC Design (Month 3)
+- ✅ Review Database Provisioning (Month 4)
+- ✅ Review Preview Environments (Month 5)
+- ✅ Review Security & Compliance (Month 6)
 
 **Deliverables:**
 - ✅ 5-10 apps deployed โดย Maintenance
@@ -563,11 +660,17 @@ style: |
 - **Maintenance deploy เองได้ 100%**
 
 **Tasks by team:**
-- **SA:** Optimize architecture based on feedback
+- **SA:** Review & Optimize architecture based on feedback
 - **AI-Eng:** Optimize LLM caching, ลด cost
-- **Dev:** Optimize CI/CD pipelines, ลด build time
+- **Dev:** Review & Optimize CI/CD pipelines, ลด build time
 - **Infra:** Right-sizing resources, auto-scaling
 - **Maintenance:** แชร์ success stories, เพิ่ม apps
+
+**Review Milestones:**
+- ✅ Review Performance Metrics (Month 8)
+- ✅ Review Cost Optimization (Month 9)
+- ✅ Review Automation Level (Month 10)
+- ✅ Review ROI & Success Metrics (Month 12)
 
 **Deliverables:**
 - ✅ Resource utilization > 70%
