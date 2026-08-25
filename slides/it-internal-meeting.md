@@ -636,17 +636,11 @@ style: |
 - **Maintenance deploy เองได้ 100%**
 
 **Tasks by team:**
-- **SA:** Review & Optimize architecture based on feedback
+- **SA:** Optimize architecture, spec based on feedback
 - **AI-Eng:** Optimize LLM caching, ลด cost
 - **Dev:** Review & Optimize CI/CD pipelines, ลด build time
 - **Infra:** Right-sizing resources, auto-scaling
 - **Maintenance:** แชร์ success stories, เพิ่ม apps
-
-**Review Milestones:**
-- ✅ Review Performance Metrics (Month 8)
-- ✅ Review Cost Optimization (Month 9)
-- ✅ Review Automation Level (Month 10)
-- ✅ Review ROI & Success Metrics (Month 12)
 
 **Deliverables:**
 - ✅ Resource utilization > 70%
