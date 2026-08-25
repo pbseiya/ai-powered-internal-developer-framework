@@ -563,8 +563,7 @@ style: |
 | Activity | Maintenance | SA | AI-Eng | Dev | Infra |
 |----------|-------------|----|----|-----|-------|
 | Requirement & Functional Spec | **R/A** | C | I | I | I |
-| Review Spec | C | **R/A** | C | C | C |
-| Architecture design | C | **R/A** | C | C | C |
+| Spec & Architecture design | C | **R/A** | C | C | C |
 | LLM integration | I | C | **R/A** | C | I |
 | k8s setup | I | C | I | C | **R/A** |
 | CI/CD templates | C | I | I | **R/A** | C |
