@@ -610,17 +610,11 @@ style: |
 - **Zero config database working**
 
 **Tasks by team:**
-- **SA:** Review Architecture → ออกแบบ approval workflow, RBAC
+- **SA:** ออกแบบ, review approval workflow, RBAC
 - **AI-Eng:** สร้าง MCP server template, auto PR reviewer
 - **Dev:** Review Source Code → สร้าง database provisioning, preview environments
 - **Infra:** Config network policies, monitoring dashboards
 - **Maintenance:** ให้ feedback, ทดสอบระบบ
-
-**Review Milestones:**
-- ✅ Review Workflow & RBAC Design (Month 3)
-- ✅ Review Database Provisioning (Month 4)
-- ✅ Review Preview Environments (Month 5)
-- ✅ Review Security & Compliance (Month 6)
 
 **Deliverables:**
 - ✅ 5-10 apps deployed โดย Maintenance
