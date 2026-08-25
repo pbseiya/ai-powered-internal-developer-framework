@@ -425,12 +425,6 @@ style: |
 - ออกแบบ RBAC model (factory vs backoffice vs user apps), Review
 - ออกแบบ, Review Requirement Spec และ Functional Spec
 
-**Review:**
-- ✅ Review Requirement Spec
-- ✅ Review Functional Spec
-- ✅ Review Architecture Design
-- ✅ Review Workflow Design
-
 </div>
 <div>
 
