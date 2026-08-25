@@ -585,15 +585,10 @@ style: |
 
 **Tasks by team:**
 - **Maintenance:** เตรียม Requirement Spec + Functional Spec
-- **SA:** Review Spec → ออกแบบ architecture, wiki schema
+- **SA:** ออกแบบ architecture, review spec & wiki schema
 - **AI-Eng:** Integrate Qwen LLM, สร้าง wiki generator prototype
 - **Dev:** สร้าง CI/CD templates, Kubernetes manifests
 - **Infra:** Setup k8s cluster, GitLab, ArgoCD, Vault
-
-**Review Milestones:**
-- ✅ Review Requirement & Functional Spec (Week 1)
-- ✅ Review Architecture Design (Week 2)
-- ✅ Review Infrastructure Setup (Week 4)
 
 **Deliverables:**
 - ✅ k8s cluster running
