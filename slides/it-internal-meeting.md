@@ -419,10 +419,10 @@ style: |
 **Role:** ออกแบบ architecture, workflow, schema
 
 **Must Do:**
-- ออกแบบ system architecture (GitLab → ArgoCD → k8s), Review
-- ออกแบบ wiki schema (LLM auto-doc structure), Review
-- ออกแบบ approval workflow (code review, wiki publish), Review
-- ออกแบบ RBAC model (factory vs backoffice vs user apps), Review
+- ออกแบบ, Review system architecture (GitLab → ArgoCD → k8s), Review
+- ออกแบบ, Review wiki schema (LLM auto-doc structure), Review
+- ออกแบบ, Review approval workflow (code review, wiki publish), Review
+- ออกแบบ, Review RBAC model (factory vs backoffice vs user apps), Review
 - ออกแบบ, Review Requirement Spec และ Functional Spec
 
 </div>
