@@ -135,11 +135,6 @@ style: |
     margin-bottom: 0;
     line-height: 1.3;
   }
-  .red-note {
-    color: #dc2626;
-    font-weight: 600;
-    font-style: italic;
-  }
   header, footer {
     color: #64748b !important;
     font-size: 14px;
@@ -370,10 +365,10 @@ style: |
 
 **5 Teams:**
 1. **Maintenance** — Developer ที่พัฒนา app เอง
-2. **SA** — ออกแบบ architecture, workflow <span class="red-note">Review Function Spec</span>
-3. **AI-Eng** — LLM integration, auto-doc <span class="red-note">Provide System, Module AI</span>
-4. **Dev** — Implementation, templates <span class="red-note">Review Code for AI</span>
-5. **Infra&Security** — Infrastructure setup, security <span class="red-note">Test security</span>
+2. **SA** — ออกแบบ architecture, workflow, Review Function Spec
+3. **AI-Eng** — LLM integration, auto-doc, Provide System & Module AI
+4. **Dev** — Implementation, templates, Review Code for AI
+5. **Infra&Security** — Infrastructure setup, security, Test security
 
 **Goal:** ทำให้ Maintenance deploy เองได้ 100% (ไม่ต้องรอ IT)
 
